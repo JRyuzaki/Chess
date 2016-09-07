@@ -20,4 +20,8 @@ public class Rook extends AbstractPiece{
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "R";
+	}
 }

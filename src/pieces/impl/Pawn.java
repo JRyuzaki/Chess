@@ -31,4 +31,8 @@ public class Pawn extends AbstractPiece {
 		return moves;
 	}
 
+	@Override
+	public String toString() {
+		return "P";
+	}	
 }

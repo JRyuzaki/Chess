@@ -20,4 +20,8 @@ public class Queen extends AbstractPiece{
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "Q";
+	}
 }

@@ -10,7 +10,7 @@ import util.Position;
 public class Knight extends AbstractPiece{
 
 	public Knight(Player player) {
-		super(PieceType.QUEEN, player);
+		super(PieceType.KNIGHT, player);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -20,4 +20,8 @@ public class Knight extends AbstractPiece{
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "H";
+	}	
 }

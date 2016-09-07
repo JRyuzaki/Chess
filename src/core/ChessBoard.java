@@ -47,28 +47,6 @@ public class ChessBoard {
 		
 		return ChessBoard.chessboardSingleton;
 	}
-	
-	
-	public void makeMove(final Position from, final Position to) {
-		if (isOutOfBounds(from))
-			throw new ArrayIndexOutOfBoundsException("Invalid From-Position! x,y: " + from.toString());
-
-		if (isOutOfBounds(to))
-			throw new ArrayIndexOutOfBoundsException("Invalid To-Position! x,y: " + to.toString());
-
-		/*AbstractPiece target = getPiece(to);
-		if(target != null){
-			if (target.getPlayer() == Player.PLAYER_ONE)		return;
-			if(target.getPlayer() == Player.PLAYER_TWO){
-				//TODO update, an enemy piece has been eaten
-			}
-		}*/
-		
-		//move it there
-		setPiece(from, null); 
-		AbstractPiece piece = getPiece(from);
-		setPiece(to, piece);
-	}
 
 	public AbstractPiece getPiece(Position pos) {
 		if(isOutOfBounds(pos))
@@ -89,5 +67,24 @@ public class ChessBoard {
 		return (position.x >= 8 || position.x < 0 || position.y >= 8 || position.y < 0);
 	}
 
-
+	@Override
+	public String toString() {
+		String output="__________________\n";
+		
+		for(int y = 0; y < 8; ++y){
+			output = output + "|";
+			for(int x = 0; x < 8; ++x){
+				Piece piece = this.getPiece(new Position(x, y));
+				if(piece != null){
+					output = output + piece + " ";
+				}else{
+					output = output + "  ";
+				}
+			}
+			output = output + "|\n";
+		}
+		
+		output = output + "__________________\n";
+		return output;
+	}
 }

@@ -20,4 +20,8 @@ public class Bishop extends AbstractPiece{
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		return "B";
+	}
 }

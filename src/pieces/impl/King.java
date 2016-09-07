@@ -31,4 +31,8 @@ public class King extends AbstractPiece{
 		return moves;
 	}
 
+	@Override
+	public String toString() {
+		return "K";
+	}
 }
