@@ -3,7 +3,6 @@ package pieces;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.ChessBoard;
 import util.Position;
 
 public class MoveManager {

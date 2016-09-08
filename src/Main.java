@@ -38,6 +38,9 @@ public class Main {
 				List<Position> moves = chess.getMoves(fromPosition);
 				chess.validateMoves(moves);
 				
+				chess.printMoves(moves);
+				
+				System.out.println("Where to go: ");
 				int newX = readInt();
 				int newY = readInt();
 				Position toPosition = new Position(x,y);

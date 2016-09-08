@@ -88,7 +88,7 @@ public class ChessGame implements GameLogic{
 		return valid;
 	}
 	
-	public void printMoves(ArrayList<Position> moves) {
+	public void printMoves(List<Position> moves) {
 		for (Position move : moves) {
 			System.out.print(move + " ");
 		}

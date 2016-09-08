@@ -25,5 +25,25 @@ public class Piece {
 		this.player = player;
 	}
 	
+	@Override
+	public String toString() {
+		switch(type){
+		case KING:
+			return "K";
+		case QUEEN:
+			return "Q";
+		case BISHOP:
+			return "B";
+		case ROOK:
+			return "R";
+		case PAWN:
+			return "P";
+		case KNIGHT:
+			return "H";
+		default:
+			return "";
+		}
+	}
+	
 	
 }
