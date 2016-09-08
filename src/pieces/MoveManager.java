@@ -12,11 +12,23 @@ public class MoveManager {
 	}
 
 	public static List<Position> getBishopMoves(Position origin) {
+		
 		return null;
 	}
 	
 	public static List<Position> getKingMoves(Position origin) {
-		return null;
+		List <Position> moves = new ArrayList<>();
+		
+		for(int y = -1; y <= 1; ++y){
+			for(int x = -1; x <= 1; ++x){
+				Position newPosition = new Position(origin.x + x, origin.y + y);
+				if(!newPosition.equals(origin)){
+					moves.add(newPosition);
+				}
+			}
+		}
+		//TODO: Add Rochade
+		return moves;
 	}
 
 	public static List<Position> getQueenMoves(Position origin) {
@@ -24,29 +36,23 @@ public class MoveManager {
 	}
 
 	public static List<Position> getKnightMoves(Position origin) {
-		Piece knight = ChessBoard.getChessboard().getPiece(origin);
-		List<Position> moves = new ArrayList<Position>();
+		List<Position> moves = new ArrayList<>();
 		
-		for(int a = -1; a <= 1; ++a){
-			for(int b = -1; b <= 1; ++b){
+		for(int a = -1; a <= 1; a += 2){
+			for(int b = -1; b <= 1; b += 2){
 				Position verticalMove = new Position(origin.x + 2 * a , origin.y + 1 * b);
-				
-				Piece verticalMovePiece = ChessBoard.getChessboard().getPiece(verticalMove);
-				if(verticalMovePiece.getPlayer() != knight.getPlayer()){
-					moves.add(verticalMove);
-				}
-				
 				Position horizontalMove = new Position(origin.x + 1 * a, origin.y + 2 * b);
-				Piece horizontalMovePiece = ChessBoard.getChessboard().getPiece(horizontalMove);
-				if(horizontalMovePiece.getPlayer() != knight.getPlayer()){
-					moves.add(horizontalMove);
-				}
+
+				moves.add(verticalMove);
+				moves.add(horizontalMove);
 			}
 		}
 		return moves;
 	}
 
 	public static List<Position> getPawnMoves(Position origin) {
-		return null;
+		List<Position> moves = new ArrayList<>();
+		
+		return moves;
 	}
 }
