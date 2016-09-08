@@ -18,8 +18,7 @@ public class ChessGame implements GameLogic{
 		this.currentTurn = Player.PLAYER_ONE;
 	}
 	
-	public List<Position> getMoves(int x, int y) {
-		Position selected = new Position(x, y);
+	public List<Position> getMoves(Position selected) {
 		if (ChessBoard.isOutOfBounds(selected))
 			throw new IllegalArgumentException("Invalid click x,y: " + selected.toString());
 		Piece piece = chessboard.getPiece(selected); // get the piece on that location
@@ -55,7 +54,7 @@ public class ChessGame implements GameLogic{
 	
 	// finding unvalids and them removing them all together, to avoid remove()
 	// inside the iteration
-	public void validateMoves(ArrayList<Position> moves) {
+	public void validateMoves(List<Position> moves) {
 		ArrayList<Position> invalids = new ArrayList<Position>();
 		for (Position move : moves) {
 			// out of map is not a valid move
@@ -73,6 +72,20 @@ public class ChessGame implements GameLogic{
 			//TODO remove moves that cause checkmate
 		}
 		moves.removeAll(invalids);
+	}
+	
+	public boolean isMoveValid(List<Position> moves, Position pos) {
+		if (ChessBoard.isOutOfBounds(pos))
+			throw new IllegalArgumentException("Invalid click x,y: " + pos.toString());
+		
+		boolean valid = false;
+		for(Position move : moves){
+			if(move.equals(pos)){
+				valid = true;
+				break;
+			}
+		}
+		return valid;
 	}
 	
 	public void printMoves(ArrayList<Position> moves) {
@@ -108,7 +121,10 @@ public class ChessGame implements GameLogic{
 	}
 
 	@Override
-	public void makeMove(Position from, Position to) {
-		
+	public void makeMove(final Position from, final Position to) {
+		Piece piece = chessboard.getPiece(from);
+		chessboard.setPiece(from, null);
+		chessboard.setPiece(to, piece);
 	}
+	
 }

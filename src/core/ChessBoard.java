@@ -48,17 +48,10 @@ public class ChessBoard {
 	}
 
 	public Piece getPiece(Position pos) {
-		if(isOutOfBounds(pos))
-			throw new IllegalArgumentException("Invalid Position");
-		
 		return board[pos.x][pos.y];
 	}
 
 	public void setPiece(Position pos, Piece piece) {
-		if(isOutOfBounds(pos)){
-			throw new IllegalArgumentException("Position is invalid!");
-		}
-		
 		board[pos.x][pos.y] = piece;
 	}
 	
