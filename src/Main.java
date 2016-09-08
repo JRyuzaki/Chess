@@ -6,10 +6,13 @@ import pieces.Piece;
 import util.Position;
 
 public class Main {
+	
+	static Scanner userScanner;
+	
 	public static void main(String[] args){
 		ChessGame chess = new ChessGame();
 		
-		Scanner userScanner = new Scanner(System.in);
+		userScanner = new Scanner(System.in);
 		
 		boolean gameRunning = true;
 		while(gameRunning){
@@ -21,15 +24,8 @@ public class Main {
 			boolean validTurn = false;
 			while(!validTurn){
 				System.out.println("Please Enter the Coordinates of the Piece you want to move: ");
-				int x,y;
-				try{
-					x = userScanner.nextInt();
-					y = userScanner.nextInt();
-					//TODO: Check if entered coordinates are out of bounds
-				}catch(NumberFormatException e){
-					System.out.println("Entered Coordinates are not valid");
-					continue;
-				}
+				int x = readInt();
+				int y = readInt();
 				
 				Position fromPosition = new Position(x, y);
 				Piece selectedPiece = chessboard.getPiece(fromPosition);
@@ -39,15 +35,8 @@ public class Main {
 					continue;
 				}
 				
-				int newX, newY;
-				try{
-					newX = userScanner.nextInt();
-					newY = userScanner.nextInt();
-					//TODO: Check if entered coordinates are out of bounds
-				}catch(NumberFormatException e){
-					System.out.println("Entered Target-Coordinates are not valid!");
-					continue;
-				}
+				int newX = readInt();
+				int newY = readInt();
 				
 				//TODO: Check if entered move is valid
 				
@@ -56,5 +45,17 @@ public class Main {
 			chess.nextTurn();
 		}
 		userScanner.close();
+	}
+	
+	private static int readInt() {
+		int number;
+		do {
+			while (!userScanner.hasNextInt()) {
+				System.out.println("That's not an integer!");
+				userScanner.next();
+			}
+			number = userScanner.nextInt();
+		} while (number < 0 || number > 7);
+		return number;
 	}
 }
