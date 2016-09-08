@@ -1,9 +1,5 @@
 package pieces;
 
-import java.util.ArrayList;
-
-import util.Position;
-
 public class Piece {
 	private PieceType type;
 	private Player player;
