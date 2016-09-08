@@ -1,6 +1,5 @@
 package core;
 
-import pieces.AbstractPiece;
 import pieces.Player;
 import util.Position;
 
