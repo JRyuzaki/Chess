@@ -4,9 +4,8 @@ import util.Position;
 
 public class ChessBoard {
 	private Piece[][] board; // [ x ] [ y ] 0,0 top left
-	private static ChessBoard chessboardSingleton;
 	
-	private ChessBoard() {
+	public ChessBoard() {
 		board = new Piece[8][8];
 
 		for (int i = 0; i < 8; i++){
@@ -36,17 +35,6 @@ public class ChessBoard {
 		board[7][7] = new Piece(PieceType.ROOK, Player.PLAYER_TWO);
 	}
 
-	/**
-	 * Static Factory Method for the singleton
-	 * @return ChessBoard
-	 */
-	public static ChessBoard getChessboard(){
-		if(ChessBoard.chessboardSingleton == null)
-			ChessBoard.chessboardSingleton = new ChessBoard();
-		
-		return ChessBoard.chessboardSingleton;
-	}
-
 	public Piece getPiece(Position pos) {
 		if(isOutOfBounds(pos))
 			throw new IllegalArgumentException("Invalid Position");
@@ -62,7 +50,7 @@ public class ChessBoard {
 		board[pos.x][pos.y] = piece;
 	}
 	
-	public static boolean isOutOfBounds(Position position) {
+	private boolean isOutOfBounds(Position position) {
 		return (position.x >= 8 || position.x < 0 || position.y >= 8 || position.y < 0);
 	}
 

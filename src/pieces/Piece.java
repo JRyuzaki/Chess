@@ -24,6 +24,4 @@ public class Piece {
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	
-	
 }
