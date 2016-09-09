@@ -11,7 +11,6 @@ public class MoveManager {
 	}
 
 	public static List<Position> getBishopMoves(Position origin) {
-		
 		return null;
 	}
 	
