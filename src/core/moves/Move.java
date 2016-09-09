@@ -17,7 +17,7 @@ public class Move {
 	}
 
 	public Move(Piece movedPiece, Position from, Position to) {
-		super();
+		this.type = MoveType.MOVE;
 		this.movedPiece = movedPiece;
 		this.from = from;
 		this.to = to;

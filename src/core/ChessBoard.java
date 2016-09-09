@@ -43,7 +43,7 @@ public class ChessBoard {
 		board[pos.x][pos.y] = piece;
 	}
 	
-	private boolean isOutOfBounds(Position position) {
+	public static boolean isOutOfBounds(Position position) {
 		return (position.x >= 8 || position.x < 0 || position.y >= 8 || position.y < 0);
 	}
 

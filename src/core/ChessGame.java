@@ -10,30 +10,30 @@ import pieces.PieceType;
 import pieces.Player;
 import util.Position;
 
-public class ChessGame implements ChessLogic{
+public class ChessGame implements ChessLogic {
 	private ChessBoard chessboard;
 	private Player currentTurn;
 	private Stack<Move> moveHistory;
-	
-	public ChessGame(){
+
+	public ChessGame() {
 		this.chessboard = new ChessBoard();
 		this.currentTurn = Player.PLAYER_ONE;
 		this.moveHistory = new Stack<>();
 	}
-	
-	//TODO: REFRACTOR
+
+	// TODO: REFRACTOR
 	public void printMoves(List<Position> moves) {
 		for (Position move : moves) {
 			System.out.print(move + " ");
 		}
 		System.out.println();
 	}
-	
-	public void setChessBoard(ChessBoard chessboard){
+
+	public void setChessBoard(ChessBoard chessboard) {
 		this.chessboard = chessboard;
 	}
-	
-	public ChessBoard getChessBoard(){
+
+	public ChessBoard getChessBoard() {
 		return this.chessboard;
 	}
 
@@ -47,9 +47,9 @@ public class ChessGame implements ChessLogic{
 
 	@Override
 	public void nextTurn() {
-		if(this.currentTurn == Player.PLAYER_ONE){
+		if (this.currentTurn == Player.PLAYER_ONE) {
 			this.currentTurn = Player.PLAYER_TWO;
-		}else{
+		} else {
 			this.currentTurn = Player.PLAYER_ONE;
 		}
 	}
@@ -69,34 +69,87 @@ public class ChessGame implements ChessLogic{
 	@Override
 	public void makeMove(Move move) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public List<Move> getPawnMoves(Position origin) {
 		return null;
 	}
-	
+
 	public List<Move> getRookkMoves(Position origin) {
 		return null;
 	}
-	
+
 	public List<Move> getKnightMoves(Position origin) {
 		return null;
 	}
-	
+
 	public List<Move> getBishopMoves(Position origin) {
 		return null;
 	}
-	
+
 	public List<Move> getQueenMoves(Position origin) {
 		return null;
 	}
-	
+
 	public List<Move> getKingMoves(Position origin) {
 		return null;
 	}
-	
+
 	public List<Move> getRookMoves(Position origin) {
-		return null;
+		List<Move> moves = new ArrayList<Move>();
+		Piece rook = chessboard.getPiece(origin);
+		
+		// right moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x + i, origin.y);
+			if (ChessBoard.isOutOfBounds(current)) continue;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			break;
+		}
+		// left moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x - i, origin.y);
+			if (ChessBoard.isOutOfBounds(current)) continue;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			break;
+		}
+		// up moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x, origin.y - i);
+			if (ChessBoard.isOutOfBounds(current)) continue;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			break;
+		}
+		// down moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x, origin.y + i);
+			if (ChessBoard.isOutOfBounds(current)) continue;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			break;
+		}
+		
+		return moves;
 	}
+	
 }
