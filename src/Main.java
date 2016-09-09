@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import core.ChessBoard;
@@ -26,7 +28,6 @@ public class Main {
 				System.out.println("Please Enter the Coordinates of the Piece you want to move: ");
 				int x = readInt();
 				int y = readInt();
-				
 				Position fromPosition = new Position(x, y);
 				Piece selectedPiece = chessboard.getPiece(fromPosition);
 				
@@ -34,13 +35,19 @@ public class Main {
 					System.out.println("No Piece was selected!");
 					continue;
 				}
+				List<Position> moves = chess.getMoves(fromPosition);
+				chess.validateMoves(moves);
 				
+				chess.printMoves(moves);
+				
+				System.out.println("Where to go: ");
 				int newX = readInt();
 				int newY = readInt();
+				Position toPosition = new Position(x,y);
+				if(chess.isMoveValid(moves, toPosition)){
+					chess.makeMove(fromPosition, toPosition);
+				}
 				
-				//TODO: Check if entered move is valid
-				
-				//TODO: Update Chessboard
 			}
 			chess.nextTurn();
 		}

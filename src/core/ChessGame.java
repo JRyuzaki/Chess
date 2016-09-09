@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import core.moves.Move;
 import pieces.Piece;
+import pieces.PieceType;
 import pieces.Player;
 import util.Position;
 
@@ -18,6 +19,14 @@ public class ChessGame implements ChessLogic{
 		this.chessboard = new ChessBoard();
 		this.currentTurn = Player.PLAYER_ONE;
 		this.moveHistory = new Stack<>();
+	}
+	
+	//TODO: REFRACTOR
+	public void printMoves(List<Position> moves) {
+		for (Position move : moves) {
+			System.out.print(move + " ");
+		}
+		System.out.println();
 	}
 	
 	public void setChessBoard(ChessBoard chessboard){
