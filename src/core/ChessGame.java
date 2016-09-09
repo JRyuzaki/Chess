@@ -76,10 +76,6 @@ public class ChessGame implements ChessLogic {
 		return null;
 	}
 
-	public List<Move> getRookkMoves(Position origin) {
-		return null;
-	}
-
 	public List<Move> getKnightMoves(Position origin) {
 		return null;
 	}
