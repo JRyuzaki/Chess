@@ -35,18 +35,18 @@ public class Main {
 					System.out.println("No Piece was selected!");
 					continue;
 				}
-				List<Position> moves = chess.getMoves(fromPosition);
-				chess.validateMoves(moves);
+				//List<Position> moves = chess.getMoves(fromPosition);
+				//chess.validateMoves(moves);
 				
-				chess.printMoves(moves);
+				//chess.printMoves(moves);
 				
 				System.out.println("Where to go: ");
 				int newX = readInt();
 				int newY = readInt();
 				Position toPosition = new Position(x,y);
-				if(chess.isMoveValid(moves, toPosition)){
-					chess.makeMove(fromPosition, toPosition);
-				}
+				//if(chess.isMoveValid(moves, toPosition)){
+				//	chess.makeMove(fromPosition, toPosition);
+				//}
 				
 			}
 			chess.nextTurn();
