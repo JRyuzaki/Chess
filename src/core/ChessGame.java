@@ -99,7 +99,7 @@ public class ChessGame implements ChessLogic {
 		// right moves
 		for (int i = 1; i < 8; i++) {
 			Position current = new Position(origin.x + i, origin.y);
-			if (ChessBoard.isOutOfBounds(current)) continue;
+			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
@@ -111,7 +111,7 @@ public class ChessGame implements ChessLogic {
 		// left moves
 		for (int i = 1; i < 8; i++) {
 			Position current = new Position(origin.x - i, origin.y);
-			if (ChessBoard.isOutOfBounds(current)) continue;
+			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
@@ -123,7 +123,7 @@ public class ChessGame implements ChessLogic {
 		// up moves
 		for (int i = 1; i < 8; i++) {
 			Position current = new Position(origin.x, origin.y - i);
-			if (ChessBoard.isOutOfBounds(current)) continue;
+			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
@@ -135,7 +135,7 @@ public class ChessGame implements ChessLogic {
 		// down moves
 		for (int i = 1; i < 8; i++) {
 			Position current = new Position(origin.x, origin.y + i);
-			if (ChessBoard.isOutOfBounds(current)) continue;
+			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
