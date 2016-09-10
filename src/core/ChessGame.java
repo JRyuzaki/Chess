@@ -92,7 +92,6 @@ public class ChessGame implements ChessLogic {
 						moves.add(new Move(knight, origin, horizontalJump));
 					}else{
 						if (horizontalJumpPiece.getPlayer() != currentTurn) moves.add(new Capture(knight, origin, horizontalJump, horizontalJumpPiece));
-						break;
 					}
 				}
 				
@@ -103,7 +102,6 @@ public class ChessGame implements ChessLogic {
 						moves.add(new Move(knight, origin, verticalJump));
 					}else{
 						if (verticalJumpPiece.getPlayer() != currentTurn) moves.add(new Capture(knight, origin, verticalJump, verticalJumpPiece));
-						break;
 					}
 				}
 			}
