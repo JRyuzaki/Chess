@@ -1,10 +1,10 @@
 package core.moves;
 
-import pieces.Piece;
+import pieces.AbstractPiece;
 import util.Position;
 
 public class Rochade extends Move{
-	private Piece movedRook;
+	private AbstractPiece movedRook;
 	private Position rookOrigin;
 	private Position rookPosition;
 	
@@ -16,7 +16,7 @@ public class Rochade extends Move{
 		this.rookPosition = null;
 	}
 
-	public Rochade(Piece movedPiece, Position from, Position to, Piece capturedPiece, Piece movedRook, Position rookOrigin, Position rookPosition) {
+	public Rochade(AbstractPiece movedPiece, Position from, Position to, AbstractPiece capturedPiece, AbstractPiece movedRook, Position rookOrigin, Position rookPosition) {
 		super(movedPiece, from, to);
 		this.type = MoveType.ROCHADE;
 		this.movedRook = movedRook;
@@ -24,11 +24,11 @@ public class Rochade extends Move{
 		this.rookPosition = rookPosition;
 	}
 
-	public Piece getMovedRook() {
+	public AbstractPiece getMovedRook() {
 		return movedRook;
 	}
 
-	public void setMovedRook(Piece movedRook) {
+	public void setMovedRook(AbstractPiece movedRook) {
 		this.movedRook = movedRook;
 	}
 

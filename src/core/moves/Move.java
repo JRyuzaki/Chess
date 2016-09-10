@@ -1,10 +1,10 @@
 package core.moves;
 
-import pieces.Piece;
+import pieces.AbstractPiece;
 import util.Position;
 
 public class Move {
-	private Piece movedPiece;
+	private AbstractPiece movedPiece;
 	private Position from;
 	private Position to;
 	protected MoveType type;
@@ -16,7 +16,7 @@ public class Move {
 		this.to = null;
 	}
 
-	public Move(Piece movedPiece, Position from, Position to) {
+	public Move(AbstractPiece movedPiece, Position from, Position to) {
 		this.type = MoveType.MOVE;
 		this.movedPiece = movedPiece;
 		this.from = from;
@@ -24,11 +24,11 @@ public class Move {
 	}
 
 
-	public Piece getMovedPiece() {
+	public AbstractPiece getMovedPiece() {
 		return movedPiece;
 	}
 
-	public void setMovedPiece(Piece movedPiece) {
+	public void setMovedPiece(AbstractPiece movedPiece) {
 		this.movedPiece = movedPiece;
 	}
 

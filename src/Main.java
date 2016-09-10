@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import core.ChessBoard;
 import core.ChessGame;
-import pieces.Piece;
+import pieces.AbstractPiece;
 import util.Position;
 
 public class Main {
@@ -29,7 +29,7 @@ public class Main {
 				int x = readInt();
 				int y = readInt();
 				Position fromPosition = new Position(x, y);
-				Piece selectedPiece = chessboard.getPiece(fromPosition);
+				AbstractPiece selectedPiece = chessboard.getPiece(fromPosition);
 				
 				if(selectedPiece == null){
 					System.out.println("No Piece was selected!");

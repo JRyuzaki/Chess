@@ -1,10 +1,10 @@
 package core.moves;
 
-import pieces.Piece;
+import pieces.AbstractPiece;
 import util.Position;
 
 public class Capture extends Move{
-	private Piece capturedPiece;
+	private AbstractPiece capturedPiece;
 	
 	public Capture(){
 		super();
@@ -12,17 +12,17 @@ public class Capture extends Move{
 		this.capturedPiece = null;
 	}
 
-	public Capture(Piece movedPiece, Position from, Position to, Piece capturedPiece) {
+	public Capture(AbstractPiece movedPiece, Position from, Position to, AbstractPiece capturedPiece) {
 		super(movedPiece, from, to);
 		this.type = MoveType.CAPTURE;
 		this.capturedPiece = capturedPiece;
 	}
 
-	public Piece getCapturedPiece() {
+	public AbstractPiece getCapturedPiece() {
 		return capturedPiece;
 	}
 
-	public void setCapturedPiece(Piece capturedPiece) {
+	public void setCapturedPiece(AbstractPiece capturedPiece) {
 		this.capturedPiece = capturedPiece;
 	}
 }
