@@ -17,7 +17,6 @@ public class Pawn extends AbstractPiece{
 		super(PieceType.PAWN, player);
 	}
 
-	//TODO passante type capture
 	@Override
 	public List<Move> getMoves(ChessBoard chessboard, Position origin) {
 		List<Move> moves = new ArrayList<>();
