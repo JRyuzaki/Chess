@@ -78,7 +78,37 @@ public class ChessGame implements ChessLogic {
 	}
 
 	public List<Move> getKnightMoves(Position origin) {
-		return null;
+		Piece knight = this.chessboard.getPiece(origin);
+		
+		List<Move> moves = new ArrayList<>();
+		
+		for(int i = -1; i <= 1; i = i + 2){
+			for(int b = -1; b <= 1; b = b + 2){
+				Position horizontalJump = new Position(origin.x + i * 2, origin.y + b);
+				
+				if(!ChessBoard.isOutOfBounds(horizontalJump)){
+					Piece horizontalJumpPiece = this.chessboard.getPiece(horizontalJump);
+					if(horizontalJumpPiece == null){
+						moves.add(new Move(knight, origin, horizontalJump));
+					}else{
+						if (horizontalJumpPiece.getPlayer() != currentTurn) moves.add(new Capture(knight, origin, horizontalJump, horizontalJumpPiece));
+						break;
+					}
+				}
+				
+				Position verticalJump = new Position(origin.x + b, origin.y + i * 2);
+				if(!ChessBoard.isOutOfBounds(verticalJump)){
+					Piece verticalJumpPiece = this.chessboard.getPiece(verticalJump);
+					if(verticalJumpPiece == null){
+						moves.add(new Move(knight, origin, verticalJump));
+					}else{
+						if (verticalJumpPiece.getPlayer() != currentTurn) moves.add(new Capture(knight, origin, verticalJump, verticalJumpPiece));
+						break;
+					}
+				}
+			}
+		}
+		return moves;
 	}
 
 	public List<Move> getKingMoves(Position origin) {
