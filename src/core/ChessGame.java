@@ -71,5 +71,5 @@ public class ChessGame implements ChessLogic {
 	public void makeMove(Move move) {
 		// TODO Auto-generated method stub
 
-	}	
+	}
 }

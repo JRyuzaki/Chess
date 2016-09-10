@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import core.ChessBoard;
 import core.ChessGame;
+import core.moves.Move;
 import pieces.AbstractPiece;
 import util.Position;
 
@@ -34,16 +35,39 @@ public class Main {
 				if(selectedPiece == null){
 					System.out.println("No Piece was selected!");
 					continue;
+				}else if(selectedPiece.getPlayer() != chess.getCurrentTurn()){
+					System.out.println("This Piece belongs to your enemy!");
+					continue;
 				}
-				//List<Position> moves = chess.getMoves(fromPosition);
-				//chess.validateMoves(moves);
 				
-				//chess.printMoves(moves);
+				List<Move> moves = selectedPiece.getMoves(chessboard, fromPosition);
+				//chess.validateMoves(moves);	//TODO: CHECK FOR CHECK
 				
-				System.out.println("Where to go: ");
-				int newX = readInt();
-				int newY = readInt();
-				Position toPosition = new Position(x,y);
+				if(moves.isEmpty()){
+					System.out.println("The selected Piece can not be moved!");
+					continue;
+				}else{
+					System.out.println(displayMovesAsString(moves));
+				}
+				
+				/*boolean selectedMoveIsValid = false;
+				int moveIndex;
+				while(!selectedMoveIsValid){
+					System.out.println("What move do you want to do: ");
+					try{
+						moveIndex = userScanner.nextInt();
+						
+						if(moveIndex < 0 || moveIndex > (moves.size() - 1)){
+							System.out.println("Invalid Number...");
+							continue;
+						}
+					}catch(NumberFormatException e){
+						System.out.println("That is not an Integer!");
+					}
+				}*/
+				
+				
+				//Position toPosition = new Position(x,y);
 				//if(chess.isMoveValid(moves, toPosition)){
 				//	chess.makeMove(fromPosition, toPosition);
 				//}
@@ -64,5 +88,15 @@ public class Main {
 			number = userScanner.nextInt();
 		} while (number < 0 || number > 7);
 		return number;
+	}
+	
+	public static String displayMovesAsString(List<Move> moves){
+		String output = "Possible Moves: \n";
+		for(Move move : moves){
+			output += "\t("+(moves.indexOf(move) + 1)+") " + move.toString() + '\n';
+		}
+		
+		output += "\t(0)Select other Piece\n";
+		return output;
 	}
 }

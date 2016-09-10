@@ -51,4 +51,9 @@ public class Move {
 	public MoveType getType() {
 		return type;
 	}
+
+	@Override
+	public String toString() {
+		return this.from+" -> "+this.to;
+	}
 }
