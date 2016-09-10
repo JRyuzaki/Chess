@@ -21,4 +21,17 @@ public class Pawn extends AbstractPiece{
 		return null;
 	}
 
+	@Override
+	public String toString() {
+		String visualization = "~";
+		
+		switch(this.getPlayer()){
+		case PLAYER_ONE:
+			visualization = "P";
+		case PLAYER_TWO:
+			visualization = "p";
+		}
+		
+		return visualization;
+	}
 }

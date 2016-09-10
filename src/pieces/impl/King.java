@@ -14,7 +14,6 @@ import util.Position;
 public class King extends AbstractPiece{
 	public King(Player player) {
 		super(PieceType.KING, player);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -39,5 +38,19 @@ public class King extends AbstractPiece{
 		}
 		
 		return moves;
+	}
+
+	@Override
+	public String toString() {
+		String visualization = "~";
+		
+		switch(this.getPlayer()){
+		case PLAYER_ONE:
+			visualization = "K";
+		case PLAYER_TWO:
+			visualization = "k";
+		}
+		
+		return visualization;
 	}
 }

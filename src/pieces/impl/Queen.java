@@ -24,4 +24,17 @@ public class Queen extends AbstractPiece{
 		return moves;
 	}
 
+	@Override
+	public String toString() {
+		String visualization = "~";
+		
+		switch(this.getPlayer()){
+		case PLAYER_ONE:
+			visualization = "Q";
+		case PLAYER_TWO:
+			visualization = "q";
+		}
+		
+		return visualization;
+	}
 }

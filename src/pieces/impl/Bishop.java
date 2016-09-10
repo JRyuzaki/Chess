@@ -19,5 +19,18 @@ public class Bishop extends AbstractPiece{
 	public List<Move> getMoves(ChessBoard chessboard, Position origin) {
 		return getDiagonalMoves(chessboard, origin);
 	}
-
+	
+	@Override
+	public String toString() {
+		String visualization = "~";
+		
+		switch(this.getPlayer()){
+		case PLAYER_ONE:
+			visualization = "B";
+		case PLAYER_TWO:
+			visualization = "b";
+		}
+		
+		return visualization;
+	}
 }

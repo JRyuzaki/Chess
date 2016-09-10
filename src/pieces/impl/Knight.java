@@ -49,5 +49,18 @@ public class Knight extends AbstractPiece{
 		}
 		return moves;
 	}
-
+	
+	@Override
+	public String toString() {
+		String visualization = "~";
+		
+		switch(this.getPlayer()){
+		case PLAYER_ONE:
+			visualization = "N";
+		case PLAYER_TWO:
+			visualization = "n";
+		}
+		
+		return visualization;
+	}
 }

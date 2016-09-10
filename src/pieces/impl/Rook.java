@@ -20,4 +20,17 @@ public class Rook extends AbstractPiece{
 		return getStraightMoves(chessboard, origin);
 	}
 
+	@Override
+	public String toString() {
+		String visualization = "~";
+		
+		switch(this.getPlayer()){
+		case PLAYER_ONE:
+			visualization = "R";
+		case PLAYER_TWO:
+			visualization = "r";
+		}
+		
+		return visualization;
+	}
 }
