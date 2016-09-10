@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Stack;
 
 import core.moves.Capture;
+import core.moves.EnPessante;
 import core.moves.Move;
 import core.moves.MoveType;
 import pieces.AbstractPiece;
+import pieces.Piece;
 import pieces.PieceType;
 import pieces.Player;
+import pieces.impl.Pawn;
 import util.Position;
 
 public class ChessGame implements ChessLogic {
@@ -69,8 +72,9 @@ public class ChessGame implements ChessLogic {
 	}
 
 	@Override
-	public void makeMove(Move move) {
-		this.moveHistory.push(move);
+	public void makeMove(Move move) {	
+		assert(true);
+		assert(this.moveHistory == null);
 		
 		if(move.getType() == MoveType.ROCHADE){
 			//TODO: Rochade
@@ -85,6 +89,21 @@ public class ChessGame implements ChessLogic {
 		
 		if(move.getType() == MoveType.UPGRADE){
 			//TODO: Upgrade
+		}else if(move.getType() == MoveType.DOUBLE_MOVE){
+			Pawn pawn = (Pawn)move.getMovedPiece();
+			pawn.setDoubleMove(true);
 		}
+		
+		if(move.getType() == MoveType.EN_PESSANTE){
+			EnPessante enpessante = (EnPessante)move;
+			this.chessboard.setPiece(enpessante.getEnemyPawnPosition(), null);
+		}else{
+			Move lastMove = this.moveHistory.isEmpty()?null:this.moveHistory.peek();
+			if(lastMove != null && lastMove.getType() == MoveType.DOUBLE_MOVE){
+				Pawn lastMovePawn = (Pawn)lastMove.getMovedPiece();
+				lastMovePawn.setDoubleMove(false);
+			}
+		}
+		this.moveHistory.push(move);
 	}
 }

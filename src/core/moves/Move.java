@@ -8,13 +8,6 @@ public class Move {
 	private Position from;
 	private Position to;
 	protected MoveType type;
-	
-	public Move(){
-		this.type = MoveType.MOVE;
-		this.movedPiece = null;
-		this.from = null;
-		this.to = null;
-	}
 
 	public Move(AbstractPiece movedPiece, Position from, Position to) {
 		this.type = MoveType.MOVE;

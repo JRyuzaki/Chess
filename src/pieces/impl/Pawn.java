@@ -5,14 +5,18 @@ import java.util.List;
 
 import core.ChessBoard;
 import core.moves.Capture;
+import core.moves.DoubleMove;
+import core.moves.EnPessante;
 import core.moves.Move;
 import pieces.AbstractPiece;
+import pieces.Piece;
 import pieces.PieceType;
 import pieces.Player;
 import util.Position;
 
 public class Pawn extends AbstractPiece{
-
+	private boolean doubleMove = false;
+	
 	public Pawn(Player player) {
 		super(PieceType.PAWN, player);
 	}
@@ -22,88 +26,59 @@ public class Pawn extends AbstractPiece{
 		List<Move> moves = new ArrayList<>();
 		AbstractPiece pawn = chessboard.getPiece(origin);
 		
+		int direction = 1;
+
 		if(pawn.getPlayer() == Player.PLAYER_ONE){
-			
-			Position up = new Position(origin.x, origin.y -1);
-			if(!ChessBoard.isOutOfBounds(up)){
-				AbstractPiece uppiece = chessboard.getPiece(up);
-				if(uppiece == null) 
-					moves.add(new Move(pawn, origin, up));
-			}
-			
-			Position upleft = new Position(origin.x - 1, origin.y - 1);
-			if(!ChessBoard.isOutOfBounds(upleft)){
-				Position left = new Position(origin.x - 1, origin.y);
-				AbstractPiece leftpiece = chessboard.getPiece(left);
-				AbstractPiece upleftpiece = chessboard.getPiece(upleft);
-				if(leftpiece == null && upleftpiece != null && upleftpiece.getPlayer() != pawn.getPlayer()){
-					moves.add(new Capture(pawn, origin, upleft, upleftpiece));
-				}else if(leftpiece != null && leftpiece.getPlayer() != pawn.getPlayer() && upleftpiece == null){
-					moves.add(new Capture(pawn, origin, upleft, leftpiece)); //en passant
-				}
-			}
-			
-			Position upright = new Position(origin.x + 1, origin.y - 1);
-			if(!ChessBoard.isOutOfBounds(upright)){
-				Position right = new Position(origin.x + 1, origin.y);
-				AbstractPiece rightpiece = chessboard.getPiece(right);
-				AbstractPiece uprightpiece = chessboard.getPiece(upright);
-				if(rightpiece == null && uprightpiece != null && uprightpiece.getPlayer() != pawn.getPlayer()){
-					moves.add(new Capture(pawn, origin, upleft, uprightpiece));
-				}else if(rightpiece != null && rightpiece.getPlayer() != pawn.getPlayer() && uprightpiece == null){
-					moves.add(new Capture(pawn, origin, upleft, rightpiece)); //en passant
+			direction = -1;
+		}
+
+		Position forward = new Position(origin.x, origin.y + direction);
+		AbstractPiece forwardPiece = chessboard.getPiece(forward);
+		if(!ChessBoard.isOutOfBounds(forward) && forwardPiece == null)
+			moves.add(new Move(pawn, origin, forward));
+
+		for(int i = -1; i <= 1; i = i + 2){
+			Position diagonal = new Position(origin.x + i, origin.y + direction);
+			if(ChessBoard.isOutOfBounds(diagonal))
+				continue;
+			AbstractPiece diagonalPiece = chessboard.getPiece(diagonal);
+			Position beside = new Position(origin.x + i, origin.y);
+			AbstractPiece besidePiece = chessboard.getPiece(beside);
+
+			if(besidePiece != null && besidePiece.getType() == PieceType.PAWN && besidePiece.getPlayer() != pawn.getPlayer() && diagonalPiece == null){
+				Pawn besidePawn = (Pawn)besidePiece;
+				if(besidePawn.hasDoubleMove()){
+					moves.add(new EnPessante(pawn, origin, diagonal, beside));
 				}
 			}
 
-			if(origin.y == 6 ){
-				Position upup = new Position(origin.x, origin.y - 2);
-				AbstractPiece upuppiece = chessboard.getPiece(upup);
-				if (upuppiece == null) 
-					moves.add(new Move(pawn, origin, upup));
+			if(diagonalPiece != null && diagonalPiece.getPlayer() != pawn.getPlayer()){
+				moves.add(new Capture(pawn, origin, diagonal, diagonalPiece));
 			}
-			
-		}else{
-			
-			Position down = new Position(origin.x, origin.y +1);
-			if(!ChessBoard.isOutOfBounds(down)){
-				AbstractPiece downpiece = chessboard.getPiece(down);
-				if(downpiece == null) 
-					moves.add(new Move(pawn, origin, down));
-			}
-			
-			Position downleft = new Position(origin.x - 1, origin.y + 1);
-			if(!ChessBoard.isOutOfBounds(downleft)){
-				Position left = new Position(origin.x - 1, origin.y);
-				AbstractPiece leftpiece = chessboard.getPiece(left);
-				AbstractPiece downleftpiece = chessboard.getPiece(downleft);
-				if(leftpiece == null && downleftpiece != null && downleftpiece.getPlayer() != pawn.getPlayer()){
-					moves.add(new Capture(pawn, origin, downleft, downleftpiece));
-				}else if(leftpiece != null && leftpiece.getPlayer() != pawn.getPlayer() && downleftpiece == null){
-					moves.add(new Capture(pawn, origin, downleft, leftpiece)); //en passant
-				}
-			}
-			
-			Position downright = new Position(origin.x + 1, origin.y + 1);
-			if(!ChessBoard.isOutOfBounds(downright)){
-				Position right = new Position(origin.x + 1, origin.y);
-				AbstractPiece rightpiece = chessboard.getPiece(right);
-				AbstractPiece downrightpiece = chessboard.getPiece(downleft);
-				if(rightpiece == null && downrightpiece != null && downrightpiece.getPlayer() != pawn.getPlayer()){
-					moves.add(new Capture(pawn, origin, downleft, downrightpiece));
-				}else if(rightpiece != null && rightpiece.getPlayer() != pawn.getPlayer() && downrightpiece == null){
-					moves.add(new Capture(pawn, origin, downleft, rightpiece)); //en passant
-				}
-			}
+		}
 
-			if(origin.y == 6 ){
-				Position downdown = new Position(origin.x, origin.y + 2);
-				AbstractPiece downdownpiece = chessboard.getPiece(downdown);
-				if (downdownpiece == null) 
-					moves.add(new Move(pawn, origin, downdown));
+		int pawnSpawnY = 1;
+		if(pawn.getPlayer() == Player.PLAYER_ONE){
+			pawnSpawnY = 6;
+		}
+
+		if(origin.y == pawnSpawnY){
+			Position doubleForward = new Position(origin.x, origin.y + direction * 2);
+			Piece doubleForwardPiece = chessboard.getPiece(doubleForward);
+			if(doubleForwardPiece == null){
+				moves.add(new DoubleMove(pawn, origin, doubleForward));
 			}
 		}
 		
 		return moves;
+	}
+
+	public boolean hasDoubleMove() {
+		return doubleMove;
+	}
+
+	public void setDoubleMove(boolean doubleMove) {
+		this.doubleMove = doubleMove;
 	}
 
 	@Override
