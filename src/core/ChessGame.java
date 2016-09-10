@@ -94,7 +94,7 @@ public class ChessGame implements ChessLogic {
 
 	public List<Move> getBishopMoves(Position origin) {
 		List<Move> moves = new ArrayList<Move>();
-		Piece rook = chessboard.getPiece(origin);
+		Piece bishop = chessboard.getPiece(origin);
 
 		// upleft moves
 		for (int i = 1; i < 8; i++) {
@@ -102,10 +102,10 @@ public class ChessGame implements ChessLogic {
 			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
-				moves.add(new Move(rook, origin, current));
+				moves.add(new Move(bishop, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
 			break;
 		}
 		// downright moves
@@ -114,10 +114,10 @@ public class ChessGame implements ChessLogic {
 			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
-				moves.add(new Move(rook, origin, current));
+				moves.add(new Move(bishop, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
 			break;
 		}
 		// upright moves
@@ -126,10 +126,10 @@ public class ChessGame implements ChessLogic {
 			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
-				moves.add(new Move(rook, origin, current));
+				moves.add(new Move(bishop, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
 			break;
 		}
 		// downleft moves
@@ -138,10 +138,10 @@ public class ChessGame implements ChessLogic {
 			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
-				moves.add(new Move(rook, origin, current));
+				moves.add(new Move(bishop, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
 			break;
 		}
 
