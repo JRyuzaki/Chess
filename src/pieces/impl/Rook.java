@@ -27,8 +27,10 @@ public class Rook extends AbstractPiece{
 		switch(this.getPlayer()){
 		case PLAYER_ONE:
 			visualization = "R";
+			break;
 		case PLAYER_TWO:
 			visualization = "r";
+			break;
 		}
 		
 		return visualization;

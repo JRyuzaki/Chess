@@ -27,8 +27,10 @@ public class Bishop extends AbstractPiece{
 		switch(this.getPlayer()){
 		case PLAYER_ONE:
 			visualization = "B";
+			break;
 		case PLAYER_TWO:
 			visualization = "b";
+			break;
 		}
 		
 		return visualization;

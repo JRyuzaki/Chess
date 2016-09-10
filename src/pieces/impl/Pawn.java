@@ -28,8 +28,10 @@ public class Pawn extends AbstractPiece{
 		switch(this.getPlayer()){
 		case PLAYER_ONE:
 			visualization = "P";
+			break;
 		case PLAYER_TWO:
 			visualization = "p";
+			break;
 		}
 		
 		return visualization;

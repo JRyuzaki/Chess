@@ -31,8 +31,10 @@ public class Queen extends AbstractPiece{
 		switch(this.getPlayer()){
 		case PLAYER_ONE:
 			visualization = "Q";
+			break;
 		case PLAYER_TWO:
 			visualization = "q";
+			break;
 		}
 		
 		return visualization;

@@ -57,8 +57,10 @@ public class Knight extends AbstractPiece{
 		switch(this.getPlayer()){
 		case PLAYER_ONE:
 			visualization = "N";
+			break;
 		case PLAYER_TWO:
 			visualization = "n";
+			break;
 		}
 		
 		return visualization;

@@ -47,8 +47,10 @@ public class King extends AbstractPiece{
 		switch(this.getPlayer()){
 		case PLAYER_ONE:
 			visualization = "K";
+			break;
 		case PLAYER_TWO:
 			visualization = "k";
+			break;
 		}
 		
 		return visualization;
