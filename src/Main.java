@@ -27,8 +27,13 @@ public class Main {
 			boolean validTurn = false;
 			while(!validTurn){
 				System.out.println("Please Enter the Coordinates of the Piece you want to move: ");
-				int x = readInt();
-				int y = readInt();
+				int x,y;
+				
+				do{
+					x = readInt();
+					y = readInt();
+				}while ((x < 0 || x > 7) || (y < 0 || y > 7));
+				
 				Position fromPosition = new Position(x, y);
 				AbstractPiece selectedPiece = chessboard.getPiece(fromPosition);
 				
@@ -50,29 +55,21 @@ public class Main {
 					System.out.println(displayMovesAsString(moves));
 				}
 				
-				/*boolean selectedMoveIsValid = false;
 				int moveIndex;
-				while(!selectedMoveIsValid){
+				do{
 					System.out.println("What move do you want to do: ");
-					try{
-						moveIndex = userScanner.nextInt();
-						
-						if(moveIndex < 0 || moveIndex > (moves.size() - 1)){
-							System.out.println("Invalid Number...");
-							continue;
-						}
-					}catch(NumberFormatException e){
-						System.out.println("That is not an Integer!");
-					}
-				}*/
+					moveIndex = readInt();
+				}while(moveIndex < 0 || moveIndex > moves.size());
 				
+				if(moveIndex == 0){		//Player wants to select different piece
+					continue;
+				}
 				
-				//Position toPosition = new Position(x,y);
-				//if(chess.isMoveValid(moves, toPosition)){
-				//	chess.makeMove(fromPosition, toPosition);
-				//}
-				
+				Move playerMove = moves.get(moveIndex - 1);
+				chess.makeMove(playerMove);
+				validTurn = true;	//CHECKME
 			}
+			System.out.println("Successfull move");
 			chess.nextTurn();
 		}
 		userScanner.close();
@@ -80,13 +77,11 @@ public class Main {
 	
 	private static int readInt() {
 		int number;
-		do {
 			while (!userScanner.hasNextInt()) {
 				System.out.println("That's not an integer!");
 				userScanner.next();
 			}
 			number = userScanner.nextInt();
-		} while (number < 0 || number > 7);
 		return number;
 	}
 	

@@ -6,6 +6,7 @@ import java.util.Stack;
 
 import core.moves.Capture;
 import core.moves.Move;
+import core.moves.MoveType;
 import pieces.AbstractPiece;
 import pieces.PieceType;
 import pieces.Player;
@@ -69,7 +70,21 @@ public class ChessGame implements ChessLogic {
 
 	@Override
 	public void makeMove(Move move) {
-		// TODO Auto-generated method stub
+		this.moveHistory.push(move);
+		
+		if(move.getType() == MoveType.ROCHADE){
+			//TODO: Rochade
+		}else{
+			Position from = move.getFrom();
+			Position to = move.getTo();
+			AbstractPiece movedPiece = move.getMovedPiece();
 
+			this.chessboard.setPiece(from, null);
+			this.chessboard.setPiece(to, movedPiece);
+		}
+		
+		if(move.getType() == MoveType.UPGRADE){
+			//TODO: Upgrade
+		}
 	}
 }
