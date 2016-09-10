@@ -110,7 +110,26 @@ public class ChessGame implements ChessLogic {
 	}
 
 	public List<Move> getKingMoves(Position origin) {
-		return null;
+		Piece king = this.chessboard.getPiece(origin);
+		
+		List<Move> moves = new ArrayList<>();
+		
+		for(int y = -1; y <= 1; ++y){
+			for(int x = -1; x <= 1; ++x){
+				Position newPosition = new Position(origin.x + x, origin.y + y);
+				if(!ChessBoard.isOutOfBounds(newPosition) && !origin.equals(newPosition)){
+					Piece piece = this.chessboard.getPiece(newPosition);
+					if(piece == null){
+						moves.add(new Move(king, origin, newPosition));
+					}else{
+						if(piece.getPlayer() != this.currentTurn)
+							moves.add(new Capture(king, origin, newPosition, piece));
+					}
+				}
+			}
+		}
+		
+		return moves;
 	}
 	
 	public List<Move> getQueenMoves(Position origin) {
