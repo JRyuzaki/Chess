@@ -103,10 +103,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(bishop, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
-			break;
 		}
 		// downright moves
 		for (int i = 1; i < 8; i++) {
@@ -115,10 +115,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(bishop, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
-			break;
 		}
 		// upright moves
 		for (int i = 1; i < 8; i++) {
@@ -127,10 +127,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(bishop, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
-			break;
 		}
 		// downleft moves
 		for (int i = 1; i < 8; i++) {
@@ -139,10 +139,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(bishop, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(bishop, origin, current, piece));
-			break;
 		}
 
 		return moves;
@@ -157,12 +157,13 @@ public class ChessGame implements ChessLogic {
 			Position current = new Position(origin.x + i, origin.y);
 			if (ChessBoard.isOutOfBounds(current)) break;
 			Piece piece = chessboard.getPiece(current);
+			
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
-			break;
 		}
 		// left moves
 		for (int i = 1; i < 8; i++) {
@@ -171,10 +172,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
-			break;
 		}
 		// up moves
 		for (int i = 1; i < 8; i++) {
@@ -183,10 +184,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
-			break;
 		}
 		// down moves
 		for (int i = 1; i < 8; i++) {
@@ -195,10 +196,10 @@ public class ChessGame implements ChessLogic {
 			Piece piece = chessboard.getPiece(current);
 			if (piece == null) {
 				moves.add(new Move(rook, origin, current));
-				continue;
+			}else{
+				if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+				break;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
-			break;
 		}
 
 		return moves;
