@@ -1,8 +1,10 @@
 package pieces.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import core.ChessBoard;
+import core.moves.Capture;
 import core.moves.Move;
 import pieces.AbstractPiece;
 import pieces.PieceType;
@@ -17,7 +19,59 @@ public class Bishop extends AbstractPiece{
 
 	@Override
 	public List<Move> getMoves(ChessBoard chessboard, Position origin) {
-		return getDiagonalMoves(chessboard, origin);
+		List<Move> moves = new ArrayList<>();
+		AbstractPiece movingPiece = chessboard.getPiece(origin);
+
+		// upleft moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x - i, origin.y - i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+		// downright moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x + i, origin.y + i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+		// upright moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x + i, origin.y - i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+		// downleft moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x - i, origin.y + i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+
+		return moves;
 	}
 	
 	@Override

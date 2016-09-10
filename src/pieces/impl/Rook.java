@@ -1,8 +1,10 @@
 package pieces.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import core.ChessBoard;
+import core.moves.Capture;
 import core.moves.Move;
 import pieces.AbstractPiece;
 import pieces.PieceType;
@@ -17,7 +19,60 @@ public class Rook extends AbstractPiece{
 
 	@Override
 	public List<Move> getMoves(ChessBoard chessboard, Position origin) {
-		return getStraightMoves(chessboard, origin);
+		List<Move> moves = new ArrayList<>();
+		AbstractPiece movingPiece = chessboard.getPiece(origin);
+
+		// right moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x + i, origin.y);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+		// left moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x - i, origin.y);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+		// up moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x, origin.y - i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+		// down moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x, origin.y + i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			AbstractPiece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(movingPiece, origin, current));
+			}else{
+				if (piece.getPlayer() != movingPiece.getPlayer()) moves.add(new Capture(movingPiece, origin, current, piece));
+				break;
+			}
+		}
+
+		return moves;
 	}
 
 	@Override
