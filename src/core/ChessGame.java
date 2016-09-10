@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import core.moves.Capture;
 import core.moves.Move;
 import pieces.Piece;
 import pieces.PieceType;
@@ -80,22 +81,77 @@ public class ChessGame implements ChessLogic {
 		return null;
 	}
 
-	public List<Move> getBishopMoves(Position origin) {
-		return null;
-	}
-
-	public List<Move> getQueenMoves(Position origin) {
-		return null;
-	}
-
 	public List<Move> getKingMoves(Position origin) {
 		return null;
+	}
+	
+	public List<Move> getQueenMoves(Position origin) {
+		List<Move> moves = new ArrayList<Move>();
+		moves.addAll(getBishopMoves(origin));
+		moves.addAll(getRookMoves(origin));
+		return moves;
+	}
+
+	public List<Move> getBishopMoves(Position origin) {
+		List<Move> moves = new ArrayList<Move>();
+		Piece rook = chessboard.getPiece(origin);
+
+		// upleft moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x - i, origin.y - i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			break;
+		}
+		// downright moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x + i, origin.y + i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			break;
+		}
+		// upright moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x + i, origin.y - i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			break;
+		}
+		// downleft moves
+		for (int i = 1; i < 8; i++) {
+			Position current = new Position(origin.x - i, origin.y + i);
+			if (ChessBoard.isOutOfBounds(current)) break;
+			Piece piece = chessboard.getPiece(current);
+			if (piece == null) {
+				moves.add(new Move(rook, origin, current));
+				continue;
+			}
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
+			break;
+		}
+
+		return moves;
 	}
 
 	public List<Move> getRookMoves(Position origin) {
 		List<Move> moves = new ArrayList<Move>();
 		Piece rook = chessboard.getPiece(origin);
-		
+
 		// right moves
 		for (int i = 1; i < 8; i++) {
 			Position current = new Position(origin.x + i, origin.y);
@@ -105,7 +161,7 @@ public class ChessGame implements ChessLogic {
 				moves.add(new Move(rook, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
 			break;
 		}
 		// left moves
@@ -117,7 +173,7 @@ public class ChessGame implements ChessLogic {
 				moves.add(new Move(rook, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
 			break;
 		}
 		// up moves
@@ -129,7 +185,7 @@ public class ChessGame implements ChessLogic {
 				moves.add(new Move(rook, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
 			break;
 		}
 		// down moves
@@ -141,11 +197,11 @@ public class ChessGame implements ChessLogic {
 				moves.add(new Move(rook, origin, current));
 				continue;
 			}
-			if (piece.getPlayer() != currentTurn) moves.add(new Move(rook, origin, current));
+			if (piece.getPlayer() != currentTurn) moves.add(new Capture(rook, origin, current, piece));
 			break;
 		}
-		
+
 		return moves;
 	}
-	
+
 }
