@@ -8,6 +8,7 @@ import core.moves.Capture;
 import core.moves.EnPessante;
 import core.moves.Move;
 import core.moves.MoveType;
+import core.moves.Upgrade;
 import pieces.AbstractPiece;
 import pieces.Piece;
 import pieces.PieceType;
@@ -88,7 +89,8 @@ public class ChessGame implements ChessLogic {
 		}
 		
 		if(move.getType() == MoveType.UPGRADE){
-			//TODO: Upgrade
+			Upgrade upgrade = (Upgrade)move;
+			chessboard.setPiece(upgrade.getTo(), upgrade.getNewPiece());
 		}else if(move.getType() == MoveType.DOUBLE_MOVE){
 			Pawn pawn = (Pawn)move.getMovedPiece();
 			pawn.setDoubleMove(true);
@@ -105,5 +107,49 @@ public class ChessGame implements ChessLogic {
 			}
 		}
 		this.moveHistory.push(move);
+	}
+	
+	public void undoMove(){
+		if(!moveHistory.isEmpty()) return;
+		
+		Move move = moveHistory.pop();
+		
+		//move it back
+		Position from = move.getFrom();
+		Position to = move.getTo();
+		AbstractPiece movedPiece = move.getMovedPiece();
+		chessboard.setPiece(from, movedPiece);
+		chessboard.setPiece(to, null);
+		
+		if(move.getType() == MoveType.CAPTURE){
+			Capture capture = (Capture)move;
+			AbstractPiece captured = capture.getCapturedPiece();
+			chessboard.setPiece(to, captured);
+			
+		}else if(move.getType() == MoveType.DOUBLE_MOVE){
+			Pawn pawn = (Pawn)move.getMovedPiece();
+			pawn.setDoubleMove(false);
+			
+		}else if(move.getType() == MoveType.EN_PESSANTE){
+			EnPessante enpessante = (EnPessante)move;
+			Pawn movingPawn = (Pawn) enpessante.getMovedPiece();
+			
+			Player enemy = Player.PLAYER_ONE;
+			if(movingPawn.getPlayer() == Player.PLAYER_ONE){
+				enemy = Player.PLAYER_TWO;
+			}
+			
+			Pawn enemyPawn = new Pawn(enemy);
+			enemyPawn.setDoubleMove(true);
+			chessboard.setPiece(enpessante.getEnemyPawnPosition(), enemyPawn );
+			
+		}else if (move.getType() == MoveType.UPGRADE){
+			Upgrade upgrade = (Upgrade)move;
+			AbstractPiece captured = upgrade.getCapturedPiece();
+
+			chessboard.setPiece(from, upgrade.getMovedPiece());
+			chessboard.setPiece(to, captured);
+		}
+		//TODO: rochade
 	}
 }

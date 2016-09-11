@@ -47,6 +47,26 @@ public class Move {
 
 	@Override
 	public String toString() {
-		return this.from+" -> "+this.to;
+		String type;
+		switch(getType()){
+		case CAPTURE:
+			type = "(Capture)";
+			break;
+		case ROCHADE:
+			type = "(Rochade)";
+			break;
+		case UPGRADE:
+			type = "(Upgrade)";
+			break;
+		case DOUBLE_MOVE:
+			type = "(Double move)";
+			break;
+		case EN_PESSANTE:
+			type = "(En Passante)";
+			break;
+		default:
+			type = "";
+		}
+		return this.from+" -> "+this.to+" "+type;
 	}
 }

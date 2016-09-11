@@ -8,6 +8,8 @@ import core.moves.Capture;
 import core.moves.DoubleMove;
 import core.moves.EnPessante;
 import core.moves.Move;
+import core.moves.MoveType;
+import core.moves.Upgrade;
 import pieces.AbstractPiece;
 import pieces.Piece;
 import pieces.PieceType;
@@ -58,8 +60,10 @@ public class Pawn extends AbstractPiece{
 		}
 
 		int pawnSpawnY = 1;
+		int lastRow = 7;
 		if(pawn.getPlayer() == Player.PLAYER_ONE){
 			pawnSpawnY = 6;
+			lastRow = 0;
 		}
 
 		if(origin.y == pawnSpawnY){
@@ -67,6 +71,19 @@ public class Pawn extends AbstractPiece{
 			Piece doubleForwardPiece = chessboard.getPiece(doubleForward);
 			if(doubleForwardPiece == null){
 				moves.add(new DoubleMove(pawn, origin, doubleForward));
+			}
+		}
+		
+		for(int i=0;i<moves.size();i++){
+			Move move = moves.get(i);
+			if(move.getTo().y == lastRow){
+				AbstractPiece capturedPiece = null;
+				if(move.getType() == MoveType.CAPTURE){
+					Capture capture = (Capture) move;
+					capturedPiece = capture.getCapturedPiece();
+				}
+				Upgrade upgrade = new Upgrade(move.getMovedPiece(), move.getFrom(), move.getTo(), null, capturedPiece);
+				moves.set(i, upgrade); //replace
 			}
 		}
 		

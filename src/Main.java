@@ -4,24 +4,24 @@
  * choose his (valid) move.
  */
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import core.ChessBoard;
-import core.ChessGame;
-import core.moves.Move;
-import pieces.AbstractPiece;
+import core.*;
+import core.moves.*;
+import pieces.*;
+import pieces.impl.*;
 import util.Position;
 
 public class Main {
 	
 	static Scanner userScanner;
+	static ChessGame chess;
 	
 	public static void main(String[] args){
-		ChessGame chess = new ChessGame();
-		
 		userScanner = new Scanner(System.in);
+		
+		chess = new ChessGame();
 		
 		boolean gameRunning = true;
 		while(gameRunning){
@@ -73,6 +73,7 @@ public class Main {
 				}
 				
 				Move playerMove = moves.get(moveIndex - 1);
+				if(playerMove.getType() == MoveType.UPGRADE) handleUpgradeMove(playerMove);
 				chess.makeMove(playerMove);
 				validTurn = true;	//CHECKME
 			}
@@ -80,6 +81,39 @@ public class Main {
 			chess.nextTurn();
 		}
 		userScanner.close();
+	}
+	
+	private static void handleUpgradeMove(Move playerMove) {
+		Upgrade upgradeMove = (Upgrade) playerMove;
+		String output = "What Piece do you want?\n";
+		output += "\t(1) Queen\n";
+		output += "\t(2) Knight\n";
+		output += "\t(3) Rook\n";
+		output += "\t(4) Bishop\n";
+		System.out.println(output);
+		
+		int choice;
+		do{
+			choice = readInt();
+		}while(choice < 1 || choice > 4);
+		
+		AbstractPiece newPiece = null;
+		switch(choice){
+		case 1:
+			newPiece = new Queen(chess.getCurrentTurn());
+			break;
+		case 2:
+			newPiece = new Knight(chess.getCurrentTurn());
+			break;
+		case 3:
+			newPiece = new Rook(chess.getCurrentTurn());
+			break;
+		case 4:
+			newPiece = new Bishop(chess.getCurrentTurn());
+			break;
+		}
+		
+		upgradeMove.setNewPiece(newPiece);
 	}
 	
 	private static int readInt() {
@@ -98,7 +132,7 @@ public class Main {
 			output += "\t("+(moves.indexOf(move) + 1)+") " + move.toString() + '\n';
 		}
 		
-		output += "\t(0)Select other Piece\n";
+		output += "\t(0) Select other Piece\n";
 		return output;
 	}
 }
