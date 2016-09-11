@@ -1,5 +1,5 @@
 /**
- * This class contains the main method and the main game loop..
+ * This class contains the main method and the main game loop.
  * It allows the current player to select a piece, view the possible moves and
  * choose his (valid) move.
  */
