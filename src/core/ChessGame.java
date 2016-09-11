@@ -8,6 +8,7 @@ import core.moves.Capture;
 import core.moves.EnPessante;
 import core.moves.Move;
 import core.moves.MoveType;
+import core.moves.Upgrade;
 import pieces.AbstractPiece;
 import pieces.Piece;
 import pieces.PieceType;
@@ -88,7 +89,8 @@ public class ChessGame implements ChessLogic {
 		}
 		
 		if(move.getType() == MoveType.UPGRADE){
-			//TODO: Upgrade
+			Upgrade upgrade = (Upgrade)move;
+			chessboard.setPiece(upgrade.getTo(), upgrade.getNewPiece());
 		}else if(move.getType() == MoveType.DOUBLE_MOVE){
 			Pawn pawn = (Pawn)move.getMovedPiece();
 			pawn.setDoubleMove(true);
@@ -140,7 +142,14 @@ public class ChessGame implements ChessLogic {
 			Pawn enemyPawn = new Pawn(enemy);
 			enemyPawn.setDoubleMove(true);
 			chessboard.setPiece(enpessante.getEnemyPawnPosition(), enemyPawn );
+			
+		}else if (move.getType() == MoveType.UPGRADE){
+			Upgrade upgrade = (Upgrade)move;
+			AbstractPiece captured = upgrade.getCapturedPiece();
+
+			chessboard.setPiece(from, upgrade.getMovedPiece());
+			chessboard.setPiece(to, captured);
 		}
-		//TODO: upgrade and rochade
+		//TODO: rochade
 	}
 }
