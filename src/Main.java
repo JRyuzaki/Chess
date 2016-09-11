@@ -98,7 +98,7 @@ public class Main {
 			output += "\t("+(moves.indexOf(move) + 1)+") " + move.toString() + '\n';
 		}
 		
-		output += "\t(0)Select other Piece\n";
+		output += "\t(0) Select other Piece\n";
 		return output;
 	}
 }
