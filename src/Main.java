@@ -1,3 +1,9 @@
+/**
+ * This class contains the main method and the main game loop..
+ * It allows the current player to select a piece, view the possible moves and
+ * choose his (valid) move.
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -58,10 +64,11 @@ public class Main {
 				int moveIndex;
 				do{
 					System.out.println("What move do you want to do: ");
+					System.out.println("Enter a 0 in order to choose a different piece!");
 					moveIndex = readInt();
 				}while(moveIndex < 0 || moveIndex > moves.size());
 				
-				if(moveIndex == 0){		//Player wants to select different piece
+				if(moveIndex == 0){		
 					continue;
 				}
 				
