@@ -4,7 +4,9 @@ Back to Black is an implementation of chess using JavaFX for the GUI and designs
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+This is a project created for learning purposes. We are all students in various Computer Science related subjects and wanted to practice our programming abilities.
+
+Also - for fun!
 
 ## Installation
 
