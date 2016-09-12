@@ -1,6 +1,6 @@
 ## Back to Black
 
-Back to Black is an implementation of chess using JavaFX for the GUI and designs created by JRyuzaki. It also features Networking for a game over the internet and an AI opponent. 
+Back to Black is an implementation of chess using JavaFX for the GUI and features designs created by JRyuzaki. It also contains Networking for a game over the internet and an AI opponent. 
 
 ## Motivation
 
