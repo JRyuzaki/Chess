@@ -1,4 +1,8 @@
 package core;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import pieces.AbstractPiece;
 import pieces.PieceType;
 import pieces.Player;
@@ -11,6 +15,8 @@ import pieces.impl.Rook;
 import util.Position;
 
 public class ChessBoard {
+	private static final Logger LOG = LogManager.getLogger(ChessBoard.class);
+	
 	private AbstractPiece[][] board; // [ x ] [ y ] 0,0 top left
 	
 	public ChessBoard() {
@@ -41,6 +47,7 @@ public class ChessBoard {
 		board[5][0] = new Bishop(Player.PLAYER_TWO);
 		board[6][0] = new Knight(Player.PLAYER_TWO);
 		board[7][0] = new Rook(Player.PLAYER_TWO);
+		LOG.debug("ChessBoard initialized...");
 	}
 
 	public AbstractPiece getPiece(Position pos) {
