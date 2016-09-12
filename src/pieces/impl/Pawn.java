@@ -86,7 +86,6 @@ public class Pawn extends AbstractPiece{
 				moves.set(i, upgrade); //replace
 			}
 		}
-		
 		return moves;
 	}
 
@@ -110,7 +109,6 @@ public class Pawn extends AbstractPiece{
 			visualization = "p";
 			break;
 		}
-		
 		return visualization;
 	}
 }
