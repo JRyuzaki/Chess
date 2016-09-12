@@ -23,8 +23,8 @@ public class ChessBoard {
 		board[0][7] = new Rook(Player.PLAYER_ONE);
 		board[1][7] = new Knight(Player.PLAYER_ONE);
 		board[2][7] = new Bishop(Player.PLAYER_ONE);
-		board[3][7] = new King(Player.PLAYER_ONE);
-		board[4][7] = new Queen(Player.PLAYER_ONE);
+		board[3][7] = new Queen(Player.PLAYER_ONE);
+		board[4][7] = new King(Player.PLAYER_ONE);
 		board[5][7] = new Bishop(Player.PLAYER_ONE);
 		board[6][7] = new Knight(Player.PLAYER_ONE);
 		board[7][7] = new Rook(Player.PLAYER_ONE);
@@ -36,8 +36,8 @@ public class ChessBoard {
 		board[0][0] = new Rook(Player.PLAYER_TWO);
 		board[1][0] = new Knight(Player.PLAYER_TWO);
 		board[2][0] = new Bishop(Player.PLAYER_TWO);
-		board[3][0] = new King(Player.PLAYER_TWO);
-		board[4][0] = new Queen(Player.PLAYER_TWO);
+		board[3][0] = new Queen(Player.PLAYER_TWO);
+		board[4][0] = new King(Player.PLAYER_TWO);
 		board[5][0] = new Bishop(Player.PLAYER_TWO);
 		board[6][0] = new Knight(Player.PLAYER_TWO);
 		board[7][0] = new Rook(Player.PLAYER_TWO);

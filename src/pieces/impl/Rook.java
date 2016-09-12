@@ -12,9 +12,11 @@ import pieces.Player;
 import util.Position;
 
 public class Rook extends AbstractPiece {
+	private boolean hasMoved;
 
 		public Rook(Player player) {
 			super(PieceType.ROOK, player);
+			hasMoved = false;
 		}
 
 		@Override
@@ -56,4 +58,12 @@ public class Rook extends AbstractPiece {
 
 			return visualization;
 		}
+
+			public boolean getHasMoved() {
+				return hasMoved;
+			}
+
+			public void setHasMoved(boolean hasMoved) {
+				this.hasMoved = hasMoved;
+			}
 }

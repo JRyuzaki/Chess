@@ -1,19 +1,19 @@
 package core;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 import core.moves.Capture;
 import core.moves.EnPessante;
 import core.moves.Move;
 import core.moves.MoveType;
+import core.moves.Rochade;
 import core.moves.Upgrade;
 import pieces.AbstractPiece;
-import pieces.Piece;
 import pieces.PieceType;
 import pieces.Player;
+import pieces.impl.King;
 import pieces.impl.Pawn;
+import pieces.impl.Rook;
 import util.Position;
 
 public class ChessGame implements ChessLogic {
@@ -25,14 +25,6 @@ public class ChessGame implements ChessLogic {
 		this.chessboard = new ChessBoard();
 		this.currentTurn = Player.PLAYER_ONE;
 		this.moveHistory = new Stack<>();
-	}
-
-	// TODO: REFRACTOR
-	public void printMoves(List<Position> moves) {
-		for (Position move : moves) {
-			System.out.print(move + " ");
-		}
-		System.out.println();
 	}
 
 	public void setChessBoard(ChessBoard chessboard) {
@@ -77,15 +69,26 @@ public class ChessGame implements ChessLogic {
 		assert(true);
 		assert(this.moveHistory == null);
 		
+		Position from = move.getFrom();
+		Position to = move.getTo();
+		AbstractPiece movedPiece = move.getMovedPiece();
+		
+		this.chessboard.setPiece(from, null);
+		this.chessboard.setPiece(to, movedPiece);
+		
+		//for rochade(castling)
+		if(movedPiece.getType() == PieceType.KING) {
+			King king = (King) movedPiece;
+			king.setHasMoved(true);
+		}else if(movedPiece.getType() == PieceType.ROOK) {
+			Rook rook = (Rook) movedPiece;
+			rook.setHasMoved(true);
+		}
+		
 		if(move.getType() == MoveType.ROCHADE){
-			//TODO: Rochade
-		}else{
-			Position from = move.getFrom();
-			Position to = move.getTo();
-			AbstractPiece movedPiece = move.getMovedPiece();
-
-			this.chessboard.setPiece(from, null);
-			this.chessboard.setPiece(to, movedPiece);
+			Rochade rochade = (Rochade)move;
+			chessboard.setPiece(rochade.getRookOrigin(), null);
+			chessboard.setPiece(rochade.getRookPosition(), rochade.getMovedRook());
 		}
 		
 		if(move.getType() == MoveType.UPGRADE){
@@ -106,6 +109,7 @@ public class ChessGame implements ChessLogic {
 				lastMovePawn.setDoubleMove(false);
 			}
 		}
+		
 		this.moveHistory.push(move);
 	}
 	
@@ -149,7 +153,11 @@ public class ChessGame implements ChessLogic {
 
 			chessboard.setPiece(from, upgrade.getMovedPiece());
 			chessboard.setPiece(to, captured);
+		}else if (move.getType() == MoveType.ROCHADE){
+			//move rook back also
+			Rochade rochade = (Rochade)move;
+			chessboard.setPiece(rochade.getRookOrigin(), rochade.getMovedRook());
+			chessboard.setPiece(rochade.getRookPosition(), null);
 		}
-		//TODO: rochade
 	}
 }
