@@ -1,6 +1,12 @@
 ## Back to Black
 
-Back to Black is an implementation of chess using JavaFX for the GUI and furthermore it features designs created by JRyuzaki. It also contains Networking for a game over the internet and an AI opponent. 
+Back to Black is an implementation of chess. Currently it only features a Commandline Interface.
+Things we are working on:
+1.GUI using JavaFX
+
+2.Networking
+
+3.AI
 
 ## Motivation
 
@@ -10,7 +16,7 @@ Also - for fun!
 
 ## Installation
 
-You can install Back to Black using the jar file. Execute the jar file with sufficient permissions and the game should open up and be playable. Depending on your system admin rights or sudo may be required.
+Simply run the main method using either the Commandline or an IDE such as Eclipse or IntelliJ.
 
 ## Controls and features
 
