@@ -7,13 +7,23 @@
 import java.util.List;
 import java.util.Scanner;
 
-import core.*;
-import core.moves.*;
-import pieces.*;
-import pieces.impl.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
+import core.ChessBoard;
+import core.ChessGame;
+import core.moves.Move;
+import core.moves.MoveType;
+import core.moves.Upgrade;
+import pieces.AbstractPiece;
+import pieces.impl.Bishop;
+import pieces.impl.Knight;
+import pieces.impl.Queen;
+import pieces.impl.Rook;
 import util.Position;
 
 public class Main {
+	private static final Logger LOG = LogManager.getLogger(Main.class);
 	
 	static Scanner userScanner;
 	static ChessGame chess;
@@ -22,9 +32,11 @@ public class Main {
 		userScanner = new Scanner(System.in);
 		
 		chess = new ChessGame();
+		LOG.debug("A new Chess game has been created");
 		
 		boolean gameRunning = true;
 		while(gameRunning){
+			LOG.debug("The main while loop is now running");
 			ChessBoard chessboard = chess.getChessBoard();
 			System.out.println(chessboard);
 			System.out.println();
@@ -114,6 +126,7 @@ public class Main {
 		}
 		
 		upgradeMove.setNewPiece(newPiece);
+		LOG.debug("A piece has been promoted!");
 	}
 	
 	private static int readInt() {
@@ -123,6 +136,7 @@ public class Main {
 				userScanner.next();
 			}
 			number = userScanner.nextInt();
+			LOG.debug("Currently a number is being input");
 		return number;
 	}
 	
@@ -133,6 +147,7 @@ public class Main {
 		}
 		
 		output += "\t(0) Select other Piece\n";
+		LOG.debug("Moves are displayed");
 		return output;
 	}
 }

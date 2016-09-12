@@ -10,18 +10,6 @@ public class Rochade extends Move{
 	private AbstractPiece movedKing;
 	private Position kingOrigin;
 	private Position kingPosition;
-
-	public Rochade(AbstractPiece movedPiece, Position from, Position to, AbstractPiece movedRook, Position rookOrigin, Position rookPosition,
-			AbstractPiece movedKing, Position kingOrigion, Position kingPosition) {
-		super(movedPiece, from, to);
-		this.type = MoveType.ROCHADE;
-		this.movedRook = movedRook;
-		this.rookOrigin = rookOrigin;
-		this.rookPosition = rookPosition;
-		this.movedKing = movedKing;
-		this.kingOrigin = kingOrigion;
-		this.kingPosition = kingPosition;
-	}
 	
 	public Rochade(AbstractPiece movedPiece, Position from, Position to, AbstractPiece movedRook, Position rookOrigin, Position rookPosition) {
 		super(movedPiece, from, to);

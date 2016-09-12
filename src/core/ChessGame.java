@@ -131,7 +131,7 @@ public class ChessGame implements ChessLogic {
 		
 		Move move = moveHistory.pop();
 		
-		//move it back
+		// move the piece back no matter what kind of move it was first
 		Position from = move.getFrom();
 		Position to = move.getTo();
 		AbstractPiece movedPiece = move.getMovedPiece();
@@ -171,12 +171,11 @@ public class ChessGame implements ChessLogic {
 			chessboard.setPiece(to, captured);
 			LOG.debug("A UPGRADE move has been UNDONE");
 			
+			//King has already been moved back above - so only the rook has to be moved back!
 		}else if (move.getType() == MoveType.ROCHADE){
 			Rochade rochade = (Rochade)move;
 			chessboard.setPiece(rochade.getRookOrigin(), rochade.getMovedRook());
 			chessboard.setPiece(rochade.getRookPosition(), null);
-			chessboard.setPiece(rochade.getKingOrigin(), rochade.getMovedKing());
-			chessboard.setPiece(rochade.getKingPosition(), null);
 			LOG.debug("A ROCHADE move has been UNDONE");
 		}
 	}
