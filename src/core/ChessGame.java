@@ -2,6 +2,9 @@ package core;
 
 import java.util.Stack;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import core.moves.Capture;
 import core.moves.EnPessante;
 import core.moves.Move;
@@ -16,7 +19,7 @@ import pieces.impl.Pawn;
 import pieces.impl.Rook;
 import util.Position;
 
-public class ChessGame implements ChessLogic {
+public class ChessGame implements ChessLogic {	
 	private ChessBoard chessboard;
 	private Player currentTurn;
 	private Stack<Move> moveHistory;
@@ -44,7 +47,7 @@ public class ChessGame implements ChessLogic {
 	}
 
 	@Override
-	public void nextTurn() {
+	public void nextTurn() {		
 		if (this.currentTurn == Player.PLAYER_ONE) {
 			this.currentTurn = Player.PLAYER_TWO;
 		} else {
@@ -66,8 +69,6 @@ public class ChessGame implements ChessLogic {
 
 	@Override
 	public void makeMove(Move move) {	
-		assert(true);
-		assert(this.moveHistory == null);
 		
 		Position from = move.getFrom();
 		Position to = move.getTo();
@@ -149,7 +150,7 @@ public class ChessGame implements ChessLogic {
 			
 		}else if (move.getType() == MoveType.UPGRADE){
 			Upgrade upgrade = (Upgrade)move;
-			AbstractPiece captured = upgrade.getCapturedPiece();
+			AbstractPiece captured = upgrade.getUpgradedPiece();
 
 			chessboard.setPiece(from, upgrade.getMovedPiece());
 			chessboard.setPiece(to, captured);
