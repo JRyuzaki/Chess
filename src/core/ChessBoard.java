@@ -1,4 +1,8 @@
 package core;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import pieces.AbstractPiece;
 import pieces.PieceType;
 import pieces.Player;
@@ -11,6 +15,8 @@ import pieces.impl.Rook;
 import util.Position;
 
 public class ChessBoard {
+	private static final Logger LOG = LogManager.getLogger(ChessBoard.class);
+	
 	private AbstractPiece[][] board; // [ x ] [ y ] 0,0 top left
 	
 	public ChessBoard() {
@@ -23,8 +29,8 @@ public class ChessBoard {
 		board[0][7] = new Rook(Player.PLAYER_ONE);
 		board[1][7] = new Knight(Player.PLAYER_ONE);
 		board[2][7] = new Bishop(Player.PLAYER_ONE);
-		board[3][7] = new King(Player.PLAYER_ONE);
-		board[4][7] = new Queen(Player.PLAYER_ONE);
+		board[3][7] = new Queen(Player.PLAYER_ONE);
+		board[4][7] = new King(Player.PLAYER_ONE);
 		board[5][7] = new Bishop(Player.PLAYER_ONE);
 		board[6][7] = new Knight(Player.PLAYER_ONE);
 		board[7][7] = new Rook(Player.PLAYER_ONE);
@@ -36,11 +42,12 @@ public class ChessBoard {
 		board[0][0] = new Rook(Player.PLAYER_TWO);
 		board[1][0] = new Knight(Player.PLAYER_TWO);
 		board[2][0] = new Bishop(Player.PLAYER_TWO);
-		board[3][0] = new King(Player.PLAYER_TWO);
-		board[4][0] = new Queen(Player.PLAYER_TWO);
+		board[3][0] = new Queen(Player.PLAYER_TWO);
+		board[4][0] = new King(Player.PLAYER_TWO);
 		board[5][0] = new Bishop(Player.PLAYER_TWO);
 		board[6][0] = new Knight(Player.PLAYER_TWO);
 		board[7][0] = new Rook(Player.PLAYER_TWO);
+		LOG.debug("ChessBoard initialized...");
 	}
 
 	public AbstractPiece getPiece(Position pos) {

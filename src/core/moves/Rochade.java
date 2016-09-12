@@ -8,7 +8,7 @@ public class Rochade extends Move{
 	private Position rookOrigin;
 	private Position rookPosition;
 
-	public Rochade(AbstractPiece movedPiece, Position from, Position to, AbstractPiece capturedPiece, AbstractPiece movedRook, Position rookOrigin, Position rookPosition) {
+	public Rochade(AbstractPiece movedPiece, Position from, Position to, AbstractPiece movedRook, Position rookOrigin, Position rookPosition) {
 		super(movedPiece, from, to);
 		this.type = MoveType.ROCHADE;
 		this.movedRook = movedRook;

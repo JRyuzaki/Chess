@@ -5,13 +5,13 @@ import util.Position;
 
 public class Upgrade extends Move{
 	private AbstractPiece newPiece;
-	private AbstractPiece capturedPiece;
+	private AbstractPiece upgradedPiece;
 	
 	public Upgrade(AbstractPiece pawn, Position from, Position to, AbstractPiece newPiece, AbstractPiece capturedPiece) {
 		super(pawn, from, to);
 		this.type = MoveType.UPGRADE;
 		this.setNewPiece(newPiece);
-		this.setCapturedPiece(capturedPiece);
+		this.setUpgradedPiece(capturedPiece);
 	}
 
 	public AbstractPiece getNewPiece() {
@@ -22,11 +22,11 @@ public class Upgrade extends Move{
 		this.newPiece = newPiece;
 	}
 
-	public AbstractPiece getCapturedPiece() {
-		return capturedPiece;
+	public AbstractPiece getUpgradedPiece() {
+		return upgradedPiece;
 	}
 
-	public void setCapturedPiece(AbstractPiece capturedPiece) {
-		this.capturedPiece = capturedPiece;
+	public void setUpgradedPiece(AbstractPiece capturedPiece) {
+		this.upgradedPiece = capturedPiece;
 	}
 }
