@@ -61,7 +61,7 @@ public class Move {
 		case DOUBLE_MOVE:
 			type = "(Double move)";
 			break;
-		case EN_PESSANTE:
+		case EN_PASSANTE:
 			type = "(En Passante)";
 			break;
 		default:

@@ -1,10 +1,10 @@
 package core;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
 import pieces.AbstractPiece;
 import pieces.Player;
 import pieces.impl.Bishop;
