@@ -69,9 +69,11 @@ public class ChessGame implements ChessLogic {
 
 	@Override
 	public boolean checkForCheckmate() {
-		// TODO Auto-generated method stub
 		LOG.debug("Currently the game is checking for a checkmate situation");
-		return false;
+		King myKing = getKingForPlayer(currentTurn);
+		Position myKingPosition = chessboard.getPositionOfPiece(myKing);
+		Player enemy = (currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
+		return ChessGame.isFieldThreaten(chessboard, myKingPosition, enemy );
 	}
 
 	@Override
@@ -195,9 +197,6 @@ public class ChessGame implements ChessLogic {
 	
 	@Override
 	public List<Move> validateMoves(List<Move> moves) {
-		if(moves.isEmpty())
-			return null;
-		
 		Player enemy = (this.currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
 		
 		List<Move> invalidMoves = new ArrayList<>();

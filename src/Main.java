@@ -45,9 +45,13 @@ public class Main {
 			
 			boolean validTurn = false;
 			while(!validTurn){
+				
+				if(chess.checkForCheckmate()){
+					System.out.println("Your King is on Check!");
+				}
+				
 				System.out.println("Please Enter the Coordinates of the Piece you want to move: ");
 				int x,y;
-				
 				do{
 					x = readInt();
 					y = readInt();
@@ -89,10 +93,6 @@ public class Main {
 				chess.makeMove(chessboard, playerMove);
 				chess.addMoveToHistory(playerMove);
 				
-				Player enemy = (chess.getCurrentTurn() == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
-				if(ChessGame.isFieldThreaten(chessboard, chessboard.getPositionOfPiece(chess.getKingForPlayer(enemy)), chess.getCurrentTurn())){
-					System.out.println("CHECK");	//TODO: More appealing visual?
-				}
 				validTurn = true;
 			}
 			System.out.println("Successfull move");

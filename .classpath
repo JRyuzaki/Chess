@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j2"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Log4J2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/log4j-2.6.2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
