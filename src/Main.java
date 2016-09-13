@@ -52,8 +52,7 @@ public class Main {
 				}
 				
 				List<Move> moves = selectedPiece.getMoves(chessboard, fromPosition);
-				//chess.validateMoves(moves);	//TODO: CHECK FOR CHECK
-				
+				moves = chess.validateMoves(moves);
 				if(moves.isEmpty()){
 					System.out.println("The selected Piece can not be moved!");
 					continue;
@@ -74,8 +73,13 @@ public class Main {
 				
 				Move playerMove = moves.get(moveIndex - 1);
 				if(playerMove.getType() == MoveType.UPGRADE) handleUpgradeMove(playerMove);
-				chess.makeMove(playerMove);
-				validTurn = true;	//CHECKME
+				chess.makeMove(chessboard, playerMove);
+
+				Player enemy = (chess.getCurrentTurn() == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
+				if(ChessGame.isFieldThreaten(chessboard, chessboard.getPositionOfPiece(chess.getKingForPlayer(enemy)), chess.getCurrentTurn())){
+					System.out.println("CHECK");	//TODO: More appealing visual?
+				}
+				validTurn = true;
 			}
 			System.out.println("Successfull move");
 			chess.nextTurn();

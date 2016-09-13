@@ -1,10 +1,11 @@
 package core;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
 import pieces.AbstractPiece;
-import pieces.PieceType;
 import pieces.Player;
 import pieces.impl.Bishop;
 import pieces.impl.King;
@@ -47,7 +48,18 @@ public class ChessBoard {
 		board[5][0] = new Bishop(Player.PLAYER_TWO);
 		board[6][0] = new Knight(Player.PLAYER_TWO);
 		board[7][0] = new Rook(Player.PLAYER_TWO);
+		
 		LOG.debug("ChessBoard initialized...");
+	}
+	
+	//Shallow Copy only!
+	public ChessBoard(ChessBoard chessboard){
+		this.board = new AbstractPiece[8][8];
+		for(int y = 0; y < 8; ++y){
+			for(int x = 0; x < 8; ++x){
+				this.board[x][y] = chessboard.getPiece(new Position(x, y));
+			}
+		}
 	}
 
 	public AbstractPiece getPiece(Position pos) {
@@ -62,6 +74,28 @@ public class ChessBoard {
 		return (position.x >= 8 || position.x < 0 || position.y >= 8 || position.y < 0);
 	}
 
+	public Position getPositionOfPiece(AbstractPiece piece){
+		for(int y = 0; y < 8; ++y){
+			for(int x = 0; x < 8; ++x){
+				if(this.board[x][y] == piece){
+					return new Position(x, y);
+				}
+			}
+		}
+		return null;
+	}
+	
+	public List<AbstractPiece> getPiecesOfPlayer(Player player){
+		ArrayList<AbstractPiece> pieces = new ArrayList<>();
+		for(int y = 0; y < 8; ++y){
+			for(int x = 0; x < 8; ++x){
+				if(this.board[y][x] != null && this.board[y][x].getPlayer() == player)
+					pieces.add(this.board[y][x]);
+			}
+		}
+		return pieces;
+	}
+	
 	@Override
 	public String toString() {
 		String output="__________________\n";

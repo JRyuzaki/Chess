@@ -1,9 +1,10 @@
 package core;
 
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import core.moves.Capture;
 import core.moves.EnPessante;
@@ -24,10 +25,15 @@ public class ChessGame implements ChessLogic {
 	private Player currentTurn;
 	private Stack<Move> moveHistory;
 
+	private Map<Player, King> kings;
+	
 	public ChessGame() {
 		this.chessboard = new ChessBoard();
 		this.currentTurn = Player.PLAYER_ONE;
 		this.moveHistory = new Stack<>();
+		this.kings = new EnumMap<>(Player.class);
+		this.kings.put(Player.PLAYER_ONE, (King)this.chessboard.getPiece(new Position(4, 7)));
+		this.kings.put(Player.PLAYER_TWO, (King)this.chessboard.getPiece(new Position(4, 0)));	
 	}
 
 	public void setChessBoard(ChessBoard chessboard) {
@@ -68,14 +74,14 @@ public class ChessGame implements ChessLogic {
 	}
 
 	@Override
-	public void makeMove(Move move) {	
+	public void makeMove(ChessBoard chessboard, Move move) {	
 		
 		Position from = move.getFrom();
 		Position to = move.getTo();
 		AbstractPiece movedPiece = move.getMovedPiece();
 		
-		this.chessboard.setPiece(from, null);
-		this.chessboard.setPiece(to, movedPiece);
+		chessboard.setPiece(from, null);
+		chessboard.setPiece(to, movedPiece);
 		
 		//for rochade(castling)
 		if(movedPiece.getType() == PieceType.KING) {
@@ -111,7 +117,7 @@ public class ChessGame implements ChessLogic {
 			}
 		}
 		
-		this.moveHistory.push(move);
+		//this.moveHistory.push(move);
 	}
 	
 	public void undoMove(){
@@ -160,5 +166,44 @@ public class ChessGame implements ChessLogic {
 			chessboard.setPiece(rochade.getRookOrigin(), rochade.getMovedRook());
 			chessboard.setPiece(rochade.getRookPosition(), null);
 		}
+	}
+	
+	@Override
+	public List<Move> validateMoves(List<Move> moves) {
+		if(moves.isEmpty())
+			return null;
+		
+		Player enemy = (this.currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
+		
+		List<Move> invalidMoves = new ArrayList<>();
+		
+		for(Move move : moves){
+			ChessBoard afterMove = new ChessBoard(this.chessboard);
+			this.makeMove(afterMove, move);
+			Position kingPosition = afterMove.getPositionOfPiece(this.kings.get(this.currentTurn));
+			
+			if(ChessGame.isFieldThreaten(afterMove, kingPosition, enemy)){
+				invalidMoves.add(move);
+			}
+		}
+		moves.removeAll(invalidMoves);
+		return moves;
+	}
+	
+	public static boolean isFieldThreaten(ChessBoard chessboard, Position field, Player enemy){
+		List<AbstractPiece> enemyPieces = chessboard.getPiecesOfPlayer(enemy);
+		for(AbstractPiece piece : enemyPieces){
+			List<Move> enemyMoves = piece.getMoves(chessboard, chessboard.getPositionOfPiece(piece));
+			for(Move enemyMove : enemyMoves){
+				if(enemyMove.getTo().equals(field)){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public King getKingForPlayer(Player player){
+		return this.kings.get(player);
 	}
 }

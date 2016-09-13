@@ -22,8 +22,8 @@ public class Bishop extends AbstractPiece {
 			List<Move> moves = new ArrayList<>();
 			AbstractPiece movingPiece = chessboard.getPiece(origin);
 
-			for (int y = -1; y <= 1; y++) {
-				for (int x = -1; x <= 1; x++) {
+			for (int y = -1; y <= 1; y = y + 2) {
+				for (int x = -1; x <= 1; x = x + 2) {
 					for (int i = 1; i < 8; i++) {
 							Position current = new Position(origin.x + x * i, origin.y + y * i);
 							if (ChessBoard.isOutOfBounds(current)) break;
