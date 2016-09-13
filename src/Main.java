@@ -46,7 +46,7 @@ public class Main {
 			boolean validTurn = false;
 			while(!validTurn){
 				
-				if(chess.checkForCheckmate()){
+				if(chess.isCheck()){
 					System.out.println("Your King is on Check!");
 				}
 				

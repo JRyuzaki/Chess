@@ -69,6 +69,10 @@ public class ChessGame implements ChessLogic {
 
 	@Override
 	public boolean checkForCheckmate() {
+		return false;
+	}
+	
+	public boolean isCheck(){
 		LOG.debug("Currently the game is checking for a checkmate situation");
 		King myKing = getKingForPlayer(currentTurn);
 		Position myKingPosition = chessboard.getPositionOfPiece(myKing);
