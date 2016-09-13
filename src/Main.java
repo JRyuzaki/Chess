@@ -87,7 +87,8 @@ public class Main {
 				Move playerMove = moves.get(moveIndex - 1);
 				if(playerMove.getType() == MoveType.UPGRADE) handleUpgradeMove(playerMove);
 				chess.makeMove(chessboard, playerMove);
-
+				chess.addMoveToHistory(playerMove);
+				
 				Player enemy = (chess.getCurrentTurn() == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
 				if(ChessGame.isFieldThreaten(chessboard, chessboard.getPositionOfPiece(chess.getKingForPlayer(enemy)), chess.getCurrentTurn())){
 					System.out.println("CHECK");	//TODO: More appealing visual?

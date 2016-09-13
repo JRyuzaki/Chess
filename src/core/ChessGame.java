@@ -135,6 +135,10 @@ public class ChessGame implements ChessLogic {
 		//this.moveHistory.push(move);
 	}
 	
+	public void addMoveToHistory(Move move){
+		this.moveHistory.push(move);
+	}
+	
 	public void undoMove(){
 		if(!moveHistory.isEmpty()) return;
 		
