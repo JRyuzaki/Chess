@@ -16,6 +16,7 @@ import core.moves.Move;
 import core.moves.MoveType;
 import core.moves.Upgrade;
 import pieces.AbstractPiece;
+import pieces.Player;
 import pieces.impl.Bishop;
 import pieces.impl.Knight;
 import pieces.impl.Queen;
