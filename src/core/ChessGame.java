@@ -73,7 +73,7 @@ public class ChessGame implements ChessLogic {
 	}
 	
 	public boolean isCheck(){
-		LOG.debug("Currently the game is checking for a checkmate situation");
+		LOG.debug("Currently the game is checking for a CHECKMATE situation");
 		King myKing = getKingForPlayer(currentTurn);
 		Position myKingPosition = chessboard.getPositionOfPiece(myKing);
 		Player enemy = (currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
@@ -83,7 +83,7 @@ public class ChessGame implements ChessLogic {
 	@Override
 	public boolean checkForTie() {
 		// TODO Auto-generated method stub
-		LOG.debug("Currently the game is checking for a tie situation.");
+		LOG.debug("Currently the game is checking for a TIE situation.");
 		return false;
 	}
 
@@ -101,11 +101,11 @@ public class ChessGame implements ChessLogic {
 		if(movedPiece.getType() == PieceType.KING) {
 			King king = (King) movedPiece;
 			king.setHasMoved(true);
-			LOG.debug("The game is checking whether or not the KING has already moved (important for castling");
+			LOG.debug("The game is checking whether or not the KING has already moved (important for CASTLING");
 		}else if(movedPiece.getType() == PieceType.ROOK) {
 			Rook rook = (Rook) movedPiece;
 			rook.setHasMoved(true);
-			LOG.debug("The game is checking whether or not the ROOK has already moved (important for castling");
+			LOG.debug("The game is checking whether or not the ROOK has already moved (important for CASTLING");
 		}
 		
 		if(move.getType() == MoveType.ROCHADE){
@@ -219,6 +219,7 @@ public class ChessGame implements ChessLogic {
 	}
 	
 	public static boolean isFieldThreaten(ChessBoard chessboard, Position field, Player enemy){
+		LOG.debug("Currently the game is checking whether or not the KING IS TREATENED");
 		List<AbstractPiece> enemyPieces = chessboard.getPiecesOfPlayer(enemy);
 		for(AbstractPiece piece : enemyPieces){
 			List<Move> enemyMoves = piece.getMoves(chessboard, chessboard.getPositionOfPiece(piece));
