@@ -48,6 +48,11 @@ public class Main {
 				
 				if(chess.isCheck()){
 					System.out.println("Your King is on Check!");
+					if(chess.checkForCheckmate()){
+						System.out.println("Checkmate.. you have lost");
+						gameRunning = false;
+						break;
+					}
 				}
 				
 				System.out.println("Please Enter the Coordinates of the Piece you want to move: ");

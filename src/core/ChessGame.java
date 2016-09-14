@@ -69,7 +69,20 @@ public class ChessGame implements ChessLogic {
 
 	@Override
 	public boolean checkForCheckmate() {
-		return false;
+		for(int y = 0; y < 8; ++y){
+			for(int x = 0; x < 8; ++x){
+				Position current = new Position(x , y);
+				AbstractPiece piece = chessboard.getPiece(current);
+				if(piece != null && piece.getPlayer() == currentTurn){
+					List<Move> pieceMoves = piece.getMoves(chessboard, current);
+					validateMoves(pieceMoves);
+					if(!pieceMoves.isEmpty()){ //the player has at least one available move
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 	
 	public boolean isCheck(){
