@@ -7,8 +7,8 @@
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import core.ChessBoard;
 import core.ChessGame;
@@ -16,7 +16,6 @@ import core.moves.Move;
 import core.moves.MoveType;
 import core.moves.Upgrade;
 import pieces.AbstractPiece;
-import pieces.Player;
 import pieces.impl.Bishop;
 import pieces.impl.Knight;
 import pieces.impl.Queen;
@@ -45,6 +44,11 @@ public class Main {
 			
 			boolean validTurn = false;
 			while(!validTurn){
+				if(chess.checkForTie()){
+					System.out.println("Tie...");
+					gameRunning = false;
+					break;
+				}
 				
 				if(chess.isCheck()){
 					System.out.println("Your King is on Check!");

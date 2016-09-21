@@ -95,8 +95,67 @@ public class ChessGame implements ChessLogic {
 
 	@Override
 	public boolean checkForTie() {
-		// TODO Auto-generated method stub
 		LOG.debug("Currently the game is checking for a TIE situation.");
+		
+		List<AbstractPiece> currentPlayerPieces = this.chessboard.getPiecesOfPlayer(this.currentTurn);
+		List<AbstractPiece> enemyPlayerPieces = this.chessboard.getPiecesOfPlayer(this.currentTurn == Player.PLAYER_ONE?Player.PLAYER_TWO:Player.PLAYER_ONE);
+		
+		//Stalemate-Check
+		boolean stalemate = true;
+		if(this.isCheck()){
+			for(AbstractPiece piece : currentPlayerPieces){
+				if(!piece.getMoves(this.chessboard, this.chessboard.getPositionOfPiece(piece)).isEmpty()){
+					stalemate = false;
+					break;
+				}
+			}
+			if(stalemate){
+				return true;
+			}
+		}
+		
+		//TODO: Fifty-Move Rule
+		//TODO: Threefold Repetition
+		
+		//Insufficient-Material-Check
+		//Enemy has only the king left
+		if(enemyPlayerPieces.size() == 1 && enemyPlayerPieces.get(0).getType() == PieceType.KING){
+			if(currentPlayerPieces.size() == 1 && currentPlayerPieces.get(0).getType() == PieceType.KING)		//King vs. King
+				return true;
+			
+			if(currentPlayerPieces.size() == 2){
+				for(int i = 0; i < 2; ++i){		//King vs. King & Bishop || King vs. King & Knight
+					if(currentPlayerPieces.get(i).getType() == PieceType.KING || currentPlayerPieces.get(i).getType() == PieceType.BISHOP || currentPlayerPieces.get(i).getType() == PieceType.KNIGHT)
+						return true;
+				}
+			}
+		}else{	//King & Bishop(s) vs King & Bishop(s) [Bishops are on the same color]
+			boolean insufficientMaterial = true;
+			Position bishopPosition = null;
+			for(int i = 0; i < 2; ++i){
+				List<AbstractPiece> pieces = (i == 0?currentPlayerPieces:enemyPlayerPieces);
+				for(AbstractPiece piece : pieces){
+					if(piece.getType() != PieceType.KING || piece.getType() != PieceType.BISHOP){
+						insufficientMaterial = false;
+						break;
+					}
+					
+					if(piece.getType() == PieceType.BISHOP){
+						if(bishopPosition == null){
+							bishopPosition = this.chessboard.getPositionOfPiece(piece);
+						}else{
+							Position otherBishopPosition = this.chessboard.getPositionOfPiece(piece);
+							if(otherBishopPosition.x % 2 != bishopPosition.x % 2 || otherBishopPosition.y % 2 != bishopPosition.y % 2){
+								insufficientMaterial = false;
+								break;
+							}
+						}
+					}
+				}
+			}
+			if(insufficientMaterial)
+				return true;
+		}
 		return false;
 	}
 

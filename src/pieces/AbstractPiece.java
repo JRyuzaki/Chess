@@ -1,12 +1,6 @@
 package pieces;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import core.ChessBoard;
-import core.moves.Capture;
 import core.moves.Move;
-import util.Position;
 
 public abstract class AbstractPiece implements Piece{
 	private PieceType type;

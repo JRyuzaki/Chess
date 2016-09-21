@@ -3,7 +3,6 @@ package core;
 import java.util.List;
 
 import core.moves.Move;
-import util.Position;
 
 public interface ChessLogic {
 	void nextTurn();
