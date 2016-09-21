@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import core.ChessBoard;
 import core.ChessGame;
+import core.TieType;
 import core.moves.Move;
 import core.moves.MoveType;
 import core.moves.Upgrade;
@@ -44,8 +45,11 @@ public class Main {
 			
 			boolean validTurn = false;
 			while(!validTurn){
-				if(chess.checkForTie()){
+
+				TieType tie = chess.checkForTie();
+				if(tie != null){
 					System.out.println("Tie...");
+					System.out.println(tie.toString());
 					gameRunning = false;
 					break;
 				}

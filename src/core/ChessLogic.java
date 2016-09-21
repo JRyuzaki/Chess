@@ -7,7 +7,7 @@ import core.moves.Move;
 public interface ChessLogic {
 	void nextTurn();
 	boolean checkForCheckmate();
-	boolean checkForTie();
+	TieType checkForTie();
 	void makeMove(ChessBoard chessboard, Move move);
 	List<Move> validateMoves(List<Move> moves);
 }

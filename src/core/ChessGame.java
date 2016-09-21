@@ -94,7 +94,7 @@ public class ChessGame implements ChessLogic {
 	}
 
 	@Override
-	public boolean checkForTie() {
+	public TieType checkForTie() {
 		LOG.debug("Currently the game is checking for a TIE situation.");
 		
 		List<AbstractPiece> currentPlayerPieces = this.chessboard.getPiecesOfPlayer(this.currentTurn);
@@ -102,15 +102,10 @@ public class ChessGame implements ChessLogic {
 		
 		//Stalemate-Check
 		boolean stalemate = true;
-		if(this.isCheck()){
+		if(!this.isCheck()){
 			for(AbstractPiece piece : currentPlayerPieces){
-				if(!piece.getMoves(this.chessboard, this.chessboard.getPositionOfPiece(piece)).isEmpty()){
-					stalemate = false;
-					break;
-				}
-			}
-			if(stalemate){
-				return true;
+				if(!piece.getMoves(this.chessboard, this.chessboard.getPositionOfPiece(piece)).isEmpty())
+					return TieType.STALEMATE;
 			}
 		}
 		
@@ -121,42 +116,43 @@ public class ChessGame implements ChessLogic {
 		//Enemy has only the king left
 		if(enemyPlayerPieces.size() == 1 && enemyPlayerPieces.get(0).getType() == PieceType.KING){
 			if(currentPlayerPieces.size() == 1 && currentPlayerPieces.get(0).getType() == PieceType.KING)		//King vs. King
-				return true;
+				return TieType.INSUFFICIENT_MATERIAL;
 			
 			if(currentPlayerPieces.size() == 2){
-				for(int i = 0; i < 2; ++i){		//King vs. King & Bishop || King vs. King & Knight
-					if(currentPlayerPieces.get(i).getType() == PieceType.KING || currentPlayerPieces.get(i).getType() == PieceType.BISHOP || currentPlayerPieces.get(i).getType() == PieceType.KNIGHT)
-						return true;
-				}
+				PieceType piece0 = currentPlayerPieces.get(0).getType();
+				PieceType piece1 = currentPlayerPieces.get(1).getType();
+				if(piece0 == PieceType.KING && (piece1 == PieceType.BISHOP || piece1 == PieceType.KNIGHT) 
+					|| piece1 == PieceType.KING && (piece0 == PieceType.BISHOP || piece0 == PieceType.KNIGHT))
+				return TieType.INSUFFICIENT_MATERIAL;
 			}
-		}else{	//King & Bishop(s) vs King & Bishop(s) [Bishops are on the same color]
-			boolean insufficientMaterial = true;
-			Position bishopPosition = null;
-			for(int i = 0; i < 2; ++i){
-				List<AbstractPiece> pieces = (i == 0?currentPlayerPieces:enemyPlayerPieces);
-				for(AbstractPiece piece : pieces){
-					if(piece.getType() != PieceType.KING || piece.getType() != PieceType.BISHOP){
-						insufficientMaterial = false;
+			
+		} else if(currentPlayerPieces.size() == 2 && enemyPlayerPieces.size() == 2) { 
+			// King & Bishop(s) vs King & Bishop(s) [Bishops are on the same color]
+			Position firstBishopPosition = null;
+			for(int i = 0; i<2;i++){ //each player
+				List<AbstractPiece> pieces = (i == 0 ? currentPlayerPieces : enemyPlayerPieces);
+				for (AbstractPiece piece : pieces) { //each piece of that player
+					if (piece.getType() != PieceType.KING || piece.getType() != PieceType.BISHOP) {
 						break;
 					}
-					
-					if(piece.getType() == PieceType.BISHOP){
-						if(bishopPosition == null){
-							bishopPosition = this.chessboard.getPositionOfPiece(piece);
-						}else{
-							Position otherBishopPosition = this.chessboard.getPositionOfPiece(piece);
-							if(otherBishopPosition.x % 2 != bishopPosition.x % 2 || otherBishopPosition.y % 2 != bishopPosition.y % 2){
-								insufficientMaterial = false;
-								break;
+	
+					if (piece.getType() == PieceType.BISHOP) {
+						if (firstBishopPosition == null) {
+							firstBishopPosition = this.chessboard.getPositionOfPiece(piece);
+						} else {
+							Position secondBishopPosition = this.chessboard.getPositionOfPiece(piece);
+							int firstBishopColor = (firstBishopPosition.x + firstBishopPosition.y) % 2;
+							int secondBishopColor = (secondBishopPosition.x + secondBishopPosition.y) % 2;
+							if(firstBishopColor == secondBishopColor){
+								return TieType.INSUFFICIENT_MATERIAL;
 							}
 						}
 					}
 				}
 			}
-			if(insufficientMaterial)
-				return true;
 		}
-		return false;
+		
+		return null;
 	}
 
 	@Override
