@@ -2,6 +2,7 @@ package core;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -28,6 +29,8 @@ public class ChessGame implements ChessLogic {
 	private ChessBoard chessboard;
 	private Player currentTurn;
 	private Stack<Move> moveHistory;
+	
+	private int turnsSinceLastCaptureOrPawnMove;
 
 	private Map<Player, King> kings;
 	
@@ -38,6 +41,8 @@ public class ChessGame implements ChessLogic {
 		this.kings = new EnumMap<>(Player.class);
 		this.kings.put(Player.PLAYER_ONE, (King)this.chessboard.getPiece(new Position(4, 7)));
 		this.kings.put(Player.PLAYER_TWO, (King)this.chessboard.getPiece(new Position(4, 0)));	
+		
+		this.turnsSinceLastCaptureOrPawnMove = 0;
 	}
 
 	public void setChessBoard(ChessBoard chessboard) {
@@ -108,8 +113,10 @@ public class ChessGame implements ChessLogic {
 					return TieType.STALEMATE;
 			}
 		}
+
+		if(this.turnsSinceLastCaptureOrPawnMove >= 50)
+			return TieType.FIFTY_MOVE_RULE;
 		
-		//TODO: Fifty-Move Rule
 		//TODO: Threefold Repetition
 		
 		//Insufficient-Material-Check
@@ -206,11 +213,17 @@ public class ChessGame implements ChessLogic {
 			}
 		}
 		
-		//this.moveHistory.push(move);
+		if(movedPiece.getType() == PieceType.PAWN || move.getType() == MoveType.CAPTURE){
+			this.turnsSinceLastCaptureOrPawnMove = 0;
+		}
 	}
 	
 	public void addMoveToHistory(Move move){
 		this.moveHistory.push(move);
+		
+		if(move.getType() != MoveType.CAPTURE && move.getMovedPiece().getType() != PieceType.PAWN){
+			++this.turnsSinceLastCaptureOrPawnMove;
+		}
 	}
 	
 	public void undoMove(){
@@ -265,8 +278,29 @@ public class ChessGame implements ChessLogic {
 			chessboard.setPiece(rochade.getRookPosition(), null);
 			LOG.debug("A ROCHADE move has been UNDONE");
 		}
+		
+		//TODO: Calculate new turnSinceMove
+		if(move.getType() == MoveType.CAPTURE || move.getMovedPiece().getType() == PieceType.PAWN){
+			this.turnsSinceLastCaptureOrPawnMove = this.calculateTurnsSinceCaptureOrPawnMove(this.moveHistory);
+		}else{
+			--this.turnsSinceLastCaptureOrPawnMove;
+			assert(this.turnsSinceLastCaptureOrPawnMove >= 0);
+		}
 	}
 	
+	private int calculateTurnsSinceCaptureOrPawnMove(Stack<Move> history){
+		int turns = 0;
+		Iterator<Move> historyIterator = this.moveHistory.iterator();
+		
+		while(historyIterator.hasNext()){
+			Move lastMove = historyIterator.next();
+			if(lastMove.getType() == MoveType.CAPTURE || lastMove.getMovedPiece().getType() == PieceType.PAWN){
+				break;
+			}
+			++turns;
+		}
+		return turns;
+	}
 	@Override
 	public List<Move> validateMoves(List<Move> moves) {
 		Player enemy = (this.currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
