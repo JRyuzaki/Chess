@@ -109,9 +109,13 @@ public class ChessGame implements ChessLogic {
 		boolean stalemate = true;
 		if(!this.isCheck()){
 			for(AbstractPiece piece : currentPlayerPieces){
-				if(!piece.getMoves(this.chessboard, this.chessboard.getPositionOfPiece(piece)).isEmpty())
-					return TieType.STALEMATE;
+				if(!piece.getMoves(this.chessboard, this.chessboard.getPositionOfPiece(piece)).isEmpty()){
+					stalemate = false;
+					break;
+				}
 			}
+			if(stalemate)
+				return TieType.STALEMATE;
 		}
 
 		if(this.turnsSinceLastCaptureOrPawnMove >= 50)
