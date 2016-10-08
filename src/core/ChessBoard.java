@@ -98,10 +98,10 @@ public class ChessBoard {
 	
 	@Override
 	public String toString() {
-		String output="__________________\n";
+		String output= "  __________________\n";
 		
 		for(int y = 0; y < 8; ++y){
-			output = output + "|";
+			output = output + (8 - y) + " |";
 			for(int x = 0; x < 8; ++x){
 				AbstractPiece piece = this.getPiece(new Position(x, y));
 				if(piece != null){
@@ -113,7 +113,14 @@ public class ChessBoard {
 			output = output + "|\n";
 		}
 		
-		output = output + "__________________\n";
+		output = output + "  __________________\n   ";
+		
+		for(int i = 0; i < 8; ++i){
+			char character = (char)('A' + i);
+			output = output + character + " ";
+		}
+		
+		output = output + '\n';
 		return output;
 	}
 }
