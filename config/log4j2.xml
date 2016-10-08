@@ -7,7 +7,7 @@
   </Appenders> 
   <Loggers> 
     <Logger name="logger" level="info"/> 
-    <Root level="trace"> 
+    <Root level="none"> 
       <AppenderRef ref="STDOUT"/> 
     </Root> 
   </Loggers> 
