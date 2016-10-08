@@ -122,7 +122,7 @@ public class ChessGame implements ChessLogic {
 			return TieType.FIFTY_MOVE_RULE;
 		
 		
-		//Threefold Repetition Check
+		//Threefold-Repetition-Check
 		if(this.moveHistory.size() >= 9){
 			boolean threefoldRepetition = true;
 			Move lastThreeStates[] = new Move[3];
