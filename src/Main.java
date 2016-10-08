@@ -63,14 +63,7 @@ public class Main {
 					}
 				}
 				
-				System.out.println("Please Enter the Coordinates of the Piece you want to move: ");
-				int x,y;
-				do{
-					x = readInt();
-					y = readInt();
-				}while ((x < 0 || x > 7) || (y < 0 || y > 7));
-				
-				Position fromPosition = new Position(x, y);
+				Position fromPosition = Main.getPositionByChessCoordinates();
 				AbstractPiece selectedPiece = chessboard.getPiece(fromPosition);
 				
 				if(selectedPiece == null){
@@ -114,6 +107,17 @@ public class Main {
 		userScanner.close();
 	}
 	
+	private static Position getPositionByNumericCoordinates(){
+		int x,y;
+		do{
+			System.out.print("Row of Piece you want to move: ");
+			x = readInt();
+			System.out.print("Column of Piece you want to move: ");
+			y = readInt();
+		}while ((x < 0 || x > 7) || (y < 0 || y > 7));
+		return new Position(x, y);
+	}
+
 	private static void handleUpgradeMove(Move playerMove) {
 		Upgrade upgradeMove = (Upgrade) playerMove;
 		String output = "What Piece do you want?\n";
@@ -157,6 +161,39 @@ public class Main {
 			number = userScanner.nextInt();
 			LOG.debug("Currently a number is being input");
 		return number;
+	}
+	
+	private static Position getPositionByChessCoordinates() {
+		Position position = null;
+		boolean validCoordinate = false;
+		while(!validCoordinate){
+		String chessCoordinateString;
+			while (!userScanner.hasNext()) {
+				System.out.println("That's not a valid ChessBoard-Coordinate!");
+				userScanner.next();
+			}
+			chessCoordinateString = userScanner.next();
+			if(chessCoordinateString.length() > 2){
+				System.out.println("That's not a valid ChessBoard-Coordinate!");
+				continue;
+			}
+			
+			chessCoordinateString = chessCoordinateString.toUpperCase();
+			
+			char xCoordinate = chessCoordinateString.charAt(0);
+			char yCoordinate = chessCoordinateString.charAt(1);
+			
+			if(xCoordinate < 'A' || xCoordinate > 'H' || yCoordinate < '1' || yCoordinate > '8'){
+				System.out.println("That's not a valid ChessBoard-Coordinate!");
+				continue;
+			}
+			
+			validCoordinate = true;
+			int x = xCoordinate - 65;
+			int y = 56 - yCoordinate;
+			position = new Position(x, y);
+		}
+		return position;
 	}
 	
 	public static String displayMovesAsString(List<Move> moves){
