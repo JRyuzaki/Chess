@@ -48,10 +48,31 @@ public class Main {
 
 				TieType tie = chess.checkForTie();
 				if(tie != null){
-					System.out.println("Tie...");
-					System.out.println(tie.toString());
-					gameRunning = false;
-					break;
+					switch (tie) {
+					case INSUFFICIENT_MATERIAL:
+						System.out.println("Draw");
+						System.out.println("You don't have enough material to checkmate your opponent");
+						gameRunning = false;
+						break;
+					case STALEMATE:
+						System.out.println("Stalemate");
+						gameRunning = false;
+						break;
+					case THREEFOLD_REPETITION:
+						System.out.println("Threefold Repetition:");
+						System.out.println("Do you agree to a draw? <y/n>");
+						gameRunning = Main.handleYesNoQuestion();
+						break;
+					case FIFTY_MOVE_RULE:
+						System.out.println("Fifty-Move-Rule:");
+						System.out.println("Do you agree to a draw? <y/n>");
+						gameRunning = Main.handleYesNoQuestion();
+						break;
+					}
+					
+					if(!gameRunning){
+						break;
+					}
 				}
 				
 				if(chess.isCheck()){
@@ -106,7 +127,7 @@ public class Main {
 		}
 		userScanner.close();
 	}
-	
+
 	private static Position getPositionByNumericCoordinates(){
 		int x,y;
 		do{
@@ -116,6 +137,12 @@ public class Main {
 			y = readInt();
 		}while ((x < 0 || x > 7) || (y < 0 || y > 7));
 		return new Position(x, y);
+	}
+	
+	private static boolean handleYesNoQuestion(){
+		while(!userScanner.hasNext());
+		char input = userScanner.next().toLowerCase().charAt(0);
+		return input == 'y';
 	}
 
 	private static void handleUpgradeMove(Move playerMove) {
