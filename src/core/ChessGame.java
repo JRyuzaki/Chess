@@ -121,7 +121,29 @@ public class ChessGame implements ChessLogic {
 		if(this.turnsSinceLastCaptureOrPawnMove >= 50)
 			return TieType.FIFTY_MOVE_RULE;
 		
-		//TODO: Threefold Repetition
+		
+		//Threefold Repetition Check
+		if(this.moveHistory.size() >= 9){
+			boolean threefoldRepetition = true;
+			Move lastThreeStates[] = new Move[3];
+			int moveHistorySize = this.moveHistory.size();
+			for(int i = 0; i < 3; ++i){
+				lastThreeStates[0] = this.moveHistory.get(moveHistorySize - 1 - i * 4);
+			}	
+			
+			for(int i = 0; i < 2; ++i){
+				Move firstMove = lastThreeStates[i];
+				Move secondMove = lastThreeStates[i + 1];
+				
+				if(firstMove.getMovedPiece() != secondMove.getMovedPiece() || firstMove.getFrom() != secondMove.getFrom() 
+						|| firstMove.getTo() != secondMove.getTo() || firstMove.getType() != secondMove.getType()){
+					threefoldRepetition = false;
+					break;
+				}
+			}
+			if(threefoldRepetition)
+				return TieType.THREEFOLD_REPETITION;
+		}
 		
 		//Insufficient-Material-Check
 		//Enemy has only the king left
