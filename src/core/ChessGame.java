@@ -92,10 +92,10 @@ public class ChessGame implements ChessLogic {
 	
 	public boolean isCheck(){
 		LOG.debug("Currently the game is checking for a CHECKMATE situation");
-		King myKing = getKingForPlayer(currentTurn);
-		Position myKingPosition = chessboard.getPositionOfPiece(myKing);
-		Player enemy = (currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
-		return ChessGame.isFieldThreaten(chessboard, myKingPosition, enemy );
+		King myKing = this.getKingForPlayer(currentTurn);
+		Position myKingPosition = this.chessboard.getPositionOfPiece(myKing);
+		Player enemy = (this.currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
+		return ChessGame.isFieldThreaten(this.chessboard, myKingPosition, enemy );
 	}
 
 	@Override
@@ -206,7 +206,7 @@ public class ChessGame implements ChessLogic {
 		
 		if(move.getType() == MoveType.EN_PASSANTE){
 			EnPessante enpessante = (EnPessante)move;
-			this.chessboard.setPiece(enpessante.getEnemyPawnPosition(), null);
+			chessboard.setPiece(enpessante.getEnemyPawnPosition(), null);
 			LOG.debug("A EN PASSANT move has been performed");
 		}else{
 			Move lastMove = this.moveHistory.isEmpty()?null:this.moveHistory.peek();
@@ -216,17 +216,22 @@ public class ChessGame implements ChessLogic {
 				LOG.debug("A PAWN's DOUBLEMOVE flag got reset! (EN PASSANT)");
 			}
 		}
-		
-		if(movedPiece.getType() == PieceType.PAWN || move.getType() == MoveType.CAPTURE){
-			this.turnsSinceLastCaptureOrPawnMove = 0;
-		}
 	}
 	
 	public void addMoveToHistory(Move move){
+		Move lastMove = this.moveHistory.isEmpty()?null:this.moveHistory.peek();
+		if(lastMove != null && lastMove.getType() == MoveType.DOUBLE_MOVE && move.getType() != MoveType.EN_PASSANTE){
+			Pawn lastMovePawn = (Pawn)lastMove.getMovedPiece();
+			lastMovePawn.setDoubleMove(false);
+			LOG.debug("A PAWN's DOUBLEMOVE flag got reset! (EN PASSANT)");
+		}
+		
 		this.moveHistory.push(move);
 		
 		if(move.getType() != MoveType.CAPTURE && move.getMovedPiece().getType() != PieceType.PAWN){
 			++this.turnsSinceLastCaptureOrPawnMove;
+		}else{
+				this.turnsSinceLastCaptureOrPawnMove = 0;
 		}
 	}
 	
