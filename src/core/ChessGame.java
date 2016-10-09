@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Stack;
 
@@ -293,7 +294,6 @@ public class ChessGame implements ChessLogic {
 			enemyPawn.setDoubleMove(true);
 			chessboard.setPiece(enpessante.getEnemyPawnPosition(), enemyPawn);
 			LOG.debug("A EN PASSANT move has been UNDONE");
-			
 		}else if (move.getType() == MoveType.UPGRADE){
 			Upgrade upgrade = (Upgrade)move;
 			AbstractPiece captured = upgrade.getUpgradedPiece();
@@ -310,7 +310,6 @@ public class ChessGame implements ChessLogic {
 			LOG.debug("A ROCHADE move has been UNDONE");
 		}
 		
-		//TODO: Calculate new turnSinceMove
 		if(move.getType() == MoveType.CAPTURE || move.getMovedPiece().getType() == PieceType.PAWN){
 			this.turnsSinceLastCaptureOrPawnMove = this.calculateTurnsSinceCaptureOrPawnMove(this.moveHistory);
 		}else{
@@ -321,10 +320,10 @@ public class ChessGame implements ChessLogic {
 	
 	private int calculateTurnsSinceCaptureOrPawnMove(Stack<Move> history){
 		int turns = 0;
-		Iterator<Move> historyIterator = this.moveHistory.iterator();
+		ListIterator<Move> historyIterator = this.moveHistory.listIterator(history.size());
 		
-		while(historyIterator.hasNext()){
-			Move lastMove = historyIterator.next();
+		while(historyIterator.hasPrevious()){
+			Move lastMove = historyIterator.previous();
 			if(lastMove.getType() == MoveType.CAPTURE || lastMove.getMovedPiece().getType() == PieceType.PAWN){
 				break;
 			}
