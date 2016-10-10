@@ -6,6 +6,7 @@
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -192,34 +193,19 @@ public class Main {
 	
 	private static Position getPositionByChessCoordinates() {
 		Position position = null;
-		boolean validCoordinate = false;
-		while(!validCoordinate){
 		String chessCoordinateString;
-			while (!userScanner.hasNext()) {
-				System.out.println("That's not a valid ChessBoard-Coordinate!");
-				userScanner.next();
-			}
-			chessCoordinateString = userScanner.next();
-			if(chessCoordinateString.length() > 2){
-				System.out.println("That's not a valid ChessBoard-Coordinate!");
-				continue;
-			}
-			
-			chessCoordinateString = chessCoordinateString.toUpperCase();
-			
-			char xCoordinate = chessCoordinateString.charAt(0);
-			char yCoordinate = chessCoordinateString.charAt(1);
-			
-			if(xCoordinate < 'A' || xCoordinate > 'H' || yCoordinate < '1' || yCoordinate > '8'){
-				System.out.println("That's not a valid ChessBoard-Coordinate!");
-				continue;
-			}
-			
-			validCoordinate = true;
-			int x = xCoordinate - 65;
-			int y = 56 - yCoordinate;
-			position = new Position(x, y);
+		
+		Pattern pattern = Pattern.compile("[a-hA-H]{1}[1-8]{1}");
+		while (!userScanner.hasNext(pattern)) {
+			System.out.println("That's not a valid ChessBoard-Coordinate!");
+			userScanner.next();
 		}
+		chessCoordinateString = userScanner.next().toUpperCase();
+		char xCoordinate = chessCoordinateString.charAt(0);
+		char yCoordinate = chessCoordinateString.charAt(1);
+		int x = xCoordinate - 65;
+		int y = 56 - yCoordinate;
+		position = new Position(x, y);
 		return position;
 	}
 	
