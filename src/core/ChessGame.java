@@ -34,6 +34,7 @@ public class ChessGame implements ChessLogic {
 	private int turnsSinceLastCaptureOrPawnMove;
 
 	private Map<Player, King> kings;
+	private boolean threefoldRepetition,fiftyMoveRule;
 	
 	public ChessGame() {
 		this.chessboard = new ChessBoard();
@@ -123,29 +124,6 @@ public class ChessGame implements ChessLogic {
 			return TieType.FIFTY_MOVE_RULE;
 		
 		
-		//Threefold-Repetition-Check
-		if(this.moveHistory.size() >= 9){
-			boolean threefoldRepetition = true;
-			Move lastThreeStates[] = new Move[3];
-			int moveHistorySize = this.moveHistory.size();
-			for(int i = 0; i < 3; ++i){
-				lastThreeStates[0] = this.moveHistory.get(moveHistorySize - 1 - i * 4);
-			}	
-			
-			for(int i = 0; i < 2; ++i){
-				Move firstMove = lastThreeStates[i];
-				Move secondMove = lastThreeStates[i + 1];
-				
-				if(firstMove.getMovedPiece() != secondMove.getMovedPiece() || firstMove.getFrom() != secondMove.getFrom() 
-						|| firstMove.getTo() != secondMove.getTo() || firstMove.getType() != secondMove.getType()){
-					threefoldRepetition = false;
-					break;
-				}
-			}
-			if(threefoldRepetition)
-				return TieType.THREEFOLD_REPETITION;
-		}
-		
 		//Insufficient-Material-Check
 		//Enemy has only the king left
 		if(enemyPlayerPieces.size() == 1 && enemyPlayerPieces.get(0).getType() == PieceType.KING){
@@ -184,6 +162,45 @@ public class ChessGame implements ChessLogic {
 					}
 				}
 			}
+		}
+		
+		//Threefold-Repetition-Check
+		if(threefoldRepetition && this.moveHistory.size() >= 9){
+			boolean threefoldRepetition = true;
+			Move lastThreeStates[] = new Move[3];
+			int moveHistorySize = this.moveHistory.size();
+			for(int i = 0; i < 3; ++i){
+				lastThreeStates[i] = this.moveHistory.get(moveHistorySize - 1 - i * 4);
+			}	
+			
+			for(int i = 0; i < 2; ++i){
+				Move firstMove = lastThreeStates[i];
+				Move secondMove = lastThreeStates[i + 1];
+				
+				if(firstMove.getMovedPiece() != secondMove.getMovedPiece() || firstMove.getFrom() != secondMove.getFrom() 
+						|| firstMove.getTo() != secondMove.getTo() || firstMove.getType() != secondMove.getType()){
+					threefoldRepetition = false;
+					break;
+				}
+			}
+			if(threefoldRepetition)
+				return TieType.THREEFOLD_REPETITION;
+		}
+		
+		//Fifty-Move Rule
+		if(fiftyMoveRule && moveHistory.size() >= 50){
+			boolean fiftyMoveRule = true;
+			for(int i=moveHistory.size() - 1; i >= 0; i--){
+				Move move = moveHistory.get(i);
+				MoveType moveType = move.getType();
+				PieceType movedPiece = move.getMovedPiece().getType();
+				if(movedPiece == PieceType.PAWN || moveType == MoveType.CAPTURE){
+					fiftyMoveRule = false;
+					break;
+				}
+			}
+			if(fiftyMoveRule)
+				return TieType.FIFTY_MOVE_RULE;
 		}
 		
 		return null;
@@ -366,5 +383,21 @@ public class ChessGame implements ChessLogic {
 	
 	public King getKingForPlayer(Player player){
 		return this.kings.get(player);
+	}
+	
+	public void setThreefoldRepetition(boolean b){
+		threefoldRepetition = b;
+	}
+	
+	public boolean getThreefoldRepetition(){
+		return threefoldRepetition;
+	}
+
+	public void setFiftyMoveRule(boolean b) {
+		fiftyMoveRule = b;
+	}
+	
+	public boolean getFiftyMoveRule(){
+		return fiftyMoveRule;
 	}
 }

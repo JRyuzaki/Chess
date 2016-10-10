@@ -34,6 +34,8 @@ public class Main {
 		userScanner = new Scanner(System.in);
 		
 		chess = new ChessGame();
+		chess.setThreefoldRepetition(true);
+		chess.setFiftyMoveRule(true);
 		LOG.debug("A new Chess game has been created");
 		
 		boolean gameRunning = true;
