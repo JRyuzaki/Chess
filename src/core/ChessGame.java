@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.apache.logging.log4j.Logger;
+
 import org.apache.logging.log4j.LogManager;
 
 import core.moves.Capture;
@@ -400,4 +402,13 @@ public class ChessGame implements ChessLogic {
 	public boolean getFiftyMoveRule(){
 		return fiftyMoveRule;
 	}
+	
+	public List<Move> getLastNMoves(int n){
+		List<Move> moves = new ArrayList<>(this.moveHistory);
+		Collections.reverse(moves);
+	
+		if(n > 0 && n < this.moveHistory.size())
+			moves.subList(0, n);
+		return moves;
+	}	
 }
