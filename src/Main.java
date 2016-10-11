@@ -48,7 +48,6 @@ public class Main {
 			
 			boolean validTurn = false;
 			while(!validTurn){
-
 				TieType tie = chess.checkForTie();
 				if(tie != null){
 					switch (tie) {
@@ -79,13 +78,15 @@ public class Main {
 				}
 				
 				if(chess.isCheck()){
-					System.out.println("Your King is on Check!");
+					System.out.println("Your King is in Check!");
 					if(chess.checkForCheckmate()){
 						System.out.println("Checkmate.. you have lost");
 						gameRunning = false;
 						break;
 					}
 				}
+				
+				System.out.println("Please enter the position of the piece you want to move!");
 				
 				Position fromPosition = Main.getPositionByChessCoordinates();
 				AbstractPiece selectedPiece = chessboard.getPiece(fromPosition);
@@ -220,5 +221,14 @@ public class Main {
 		output += "\t(0) Select other Piece\n";
 		LOG.debug("Moves are displayed");
 		return output;
+	}
+	
+	public static void displayMoveHistory(int step){
+		List<Move> moves = chess.getLastNMoves(step);
+		int historySize = moves.size();
+		for(Move move : moves){
+			System.out.println("<"+historySize+"> " + move);
+			--historySize;
+		}
 	}
 }
