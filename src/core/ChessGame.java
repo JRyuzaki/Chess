@@ -278,9 +278,10 @@ public class ChessGame implements ChessLogic {
 	}
 	
 	public void undoMove(){
-		if(!moveHistory.isEmpty()) return;
+		if(moveHistory.isEmpty()) return;
 		
 		Move move = moveHistory.pop();
+		this.currentTurn = (currentTurn == Player.PLAYER_ONE?Player.PLAYER_TWO:Player.PLAYER_ONE);
 		
 		// move the piece back no matter what kind of move it was first
 		Position from = move.getFrom();
@@ -408,7 +409,7 @@ public class ChessGame implements ChessLogic {
 		Collections.reverse(moves);
 	
 		if(n > 0 && n < this.moveHistory.size())
-			moves.subList(0, n);
+			moves = moves.subList(0, n);
 		return moves;
 	}	
 }
