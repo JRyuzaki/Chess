@@ -85,10 +85,19 @@ public class Main {
 						break;
 					}
 				}
+
+				Position fromPosition = null;
+				while(fromPosition == null){
+					System.out.println("Please enter the position of the piece you want to move!");
+					String userString = userScanner.next();
 				
-				System.out.println("Please enter the position of the piece you want to move!");
+					if(userString.charAt(0) == '!'){
+						handleCommand(userString.substring(1, userString.length()));
+					}else{
+						fromPosition = getPositionByChessCoordinatesFromString(userString);
+					}
+				}
 				
-				Position fromPosition = Main.getPositionByChessCoordinates();
 				AbstractPiece selectedPiece = chessboard.getPiece(fromPosition);
 				
 				if(selectedPiece == null){
@@ -130,6 +139,21 @@ public class Main {
 			chess.nextTurn();
 		}
 		userScanner.close();
+	}
+
+	private static void handleCommand(String userString) {
+		userString = userString.toLowerCase();
+		if(userString.equals("history")){
+			if(userScanner.hasNextInt()){		//BLOCKING
+				displayMoveHistory(userScanner.nextInt());
+			}else{
+				displayMoveHistory(0);
+			}
+		}else if(userString.equals("undo")){
+			chess.undoMove();
+		}
+		
+		System.out.println(chess.getChessBoard());
 	}
 
 	private static Position getPositionByNumericCoordinates(){
@@ -194,16 +218,14 @@ public class Main {
 		return number;
 	}
 	
-	private static Position getPositionByChessCoordinates() {
-		Position position = null;
-		String chessCoordinateString;
-		
-		Pattern pattern = Pattern.compile("[a-hA-H]{1}[1-8]{1}");
-		while (!userScanner.hasNext(pattern)) {
-			System.out.println("That's not a valid ChessBoard-Coordinate!");
-			userScanner.next();
+	private static Position getPositionByChessCoordinatesFromString(String chessCoordinateString) {
+		if(!Pattern.matches("[a-hA-H]{1}[1-8]{1}", chessCoordinateString)){
+			return null;
 		}
-		chessCoordinateString = userScanner.next().toUpperCase();
+
+		Position position = null;
+		
+		chessCoordinateString = chessCoordinateString.toUpperCase();
 		char xCoordinate = chessCoordinateString.charAt(0);
 		char yCoordinate = chessCoordinateString.charAt(1);
 		int x = xCoordinate - 65;
@@ -225,7 +247,7 @@ public class Main {
 	
 	public static void displayMoveHistory(int step){
 		List<Move> moves = chess.getLastNMoves(step);
-		int historySize = moves.size();
+		int historySize = moves.size() + ((step <= 0)?step:0);
 		for(Move move : moves){
 			System.out.println("<"+historySize+"> " + move);
 			--historySize;
