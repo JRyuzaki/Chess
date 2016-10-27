@@ -65,7 +65,6 @@ public class ChessGame implements ChessLogic {
 		this.currentTurn = currentTurn;
 	}
 
-	@Override
 	public void nextTurn() {		
 		if (this.currentTurn == Player.PLAYER_ONE) {
 			this.currentTurn = Player.PLAYER_TWO;
@@ -76,7 +75,6 @@ public class ChessGame implements ChessLogic {
 		}
 	}
 
-	@Override
 	public boolean checkForCheckmate() {
 		for(int y = 0; y < 8; ++y){
 			for(int x = 0; x < 8; ++x){
@@ -102,7 +100,6 @@ public class ChessGame implements ChessLogic {
 		return ChessGame.isFieldThreaten(this.chessboard, myKingPosition, enemy );
 	}
 
-	@Override
 	public TieType checkForTie() {
 		LOG.debug("Currently the game is checking for a TIE situation.");
 		
@@ -208,7 +205,6 @@ public class ChessGame implements ChessLogic {
 		return null;
 	}
 
-	@Override
 	public void makeMove(ChessBoard chessboard, Move move) {	
 		
 		Position from = move.getFrom();
@@ -351,7 +347,7 @@ public class ChessGame implements ChessLogic {
 		}
 		return turns;
 	}
-	@Override
+	
 	public List<Move> validateMoves(List<Move> moves) {
 		Player enemy = (this.currentTurn == Player.PLAYER_ONE)?Player.PLAYER_TWO:Player.PLAYER_ONE;
 		
