@@ -2,4 +2,5 @@
 src/.project
 /target/
 .*
+*.iml
 !/.gitignore
